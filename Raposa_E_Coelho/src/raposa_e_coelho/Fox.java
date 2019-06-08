@@ -24,19 +24,21 @@ public class Fox
     private static final int MAX_LITTER_SIZE = 3;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 4;
+    private static final int RABBIT_FOOD_VALUE = 7;
     // A shared random number generator to control breeding.
     private static final Random rand = new Random();
     
     // Individual characteristics (instance fields).
 
-    // The fox's age.
+    // idade da raposa
     private int age;
-    // Whether the fox is alive or not.
+    // se a raposa esta vida ou morta
     private boolean alive;
-    // The fox's position
+    // posicao da raposa
     private Location location;
-    // The fox's food level, which is increased by eating rabbits.
+    //o campo ocupado
+    private Field field;
+    // o nivel de alimenots da raposa, que aumenta comendo coelhos
     private int foodLevel;
 
     /**
@@ -45,10 +47,12 @@ public class Fox
      * 
      * @param randomAge If true, the fox will have random age and hunger level.
      */
-    public Fox(boolean randomAge)
+    public Fox(boolean randomAge,Field field,Location location)
     {
         age = 0;
         alive = true;
+        this.field=field;
+        this.location=location;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
@@ -64,34 +68,86 @@ public class Fox
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      */
-    public void hunt(Field currentField, Field updatedField, List newFoxes)
+    public void hunt(List newFoxes)
     {
         incrementAge();
         incrementHunger();
-        if(isAlive()) {
-            // New foxes are born into adjacent locations.
-            int births = breed();
-            for(int b = 0; b < births; b++) {
-                Fox newFox = new Fox(false);
-                newFoxes.add(newFox);
-                Location loc = updatedField.randomAdjacentLocation(location);
-                newFox.setLocation(loc);
-                updatedField.place(newFox, loc);
-            }
-            // Move towards the source of food if found.
-            Location newLocation = findFood(currentField, location);
-            if(newLocation == null) {  // no food found - move randomly
-                newLocation = updatedField.freeAdjacentLocation(location);
-            }
-            if(newLocation != null) {
-                setLocation(newLocation);
-                updatedField.place(this, newLocation);
-            }
-            else {
+        if(alive) {
+                giveBirth(newFoxes);
+                //mova-se para a fonte de alimento se encontrada.
+                Location newLocation=findFood(location);
+                if(newLocation == null){
+                //nenhum alineto enconrado tenta ,mover para uma localizacao livre
+                newLocation= field.freeAdjacentLocation(location);
+                }
+                //verifica se foi possivel mover-se
+                if(newLocation != null){
+                    setLocation(newLocation);
+                }
+                else{
+                    //superLotacao
+                    setDead();
+                }
+        }
+        else {
                 // can neither move nor stay - overcrowding - all locations taken
                 alive = false;
             }
         }
+    
+     //isso indica que a raposa não esta mais vivo
+    //ele é removido do campo
+    
+    
+    public void setDead(){
+        alive=false;
+        if(location!=null){
+            field.clear(location);
+            location=null;
+            field=null;
+        }
+    }
+    
+    
+    
+    
+     //verifica se o coelho deve ou não procriar nesse passo
+    //novos nascimentos serao criados en localizaocao adjacentes livres
+    //newRabbits uma lista a qual adiconar os coelhos recem nascidos
+    private void giveBirth(List<Fox> newFoxes){
+        //novas raposas nascem em locais adjacentes
+        //obtem uma lista das localizacoes livres
+        List<Location> free=field.getFreeAdjacentLocations(location);
+        int births=breed();
+        for (int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            Fox young = new Fox(false,field,loc);
+            newFoxes.add(young);
+        }
+    }
+    
+    /**instrui a raposa procurar coelhos adjacentes ao seu local ataul
+     * só o primeiro coelho é comido @param location onde no campo esta localizado
+     * retun onde o alimento foi encontardo ou null caso contrario
+     * 
+     */
+    private Location findFood(Location location){
+    
+    List<Location> adjacent = field.adjacentLocations(location);
+    Iterator<Location> it=adjacent.iterator();
+    while(it.hasNext()){
+        Location where=it.next();
+        Object animal=field.getObjectAt(where);
+        if(animal instanceof Rabbit){
+            Rabbit rabbit=(Rabbit)animal;
+            if(rabbit.isAlive()){
+                rabbit.setDead();
+                foodLevel=RABBIT_FOOD_VALUE;
+                return where;
+            }
+        }
+    }
+    return null;
     }
     
     /**
@@ -122,24 +178,7 @@ public class Fox
      * @param location Where in the field it is located.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Field field, Location location)
-    {
-        Iterator adjacentLocations =
-                          field.adjacentLocations(location);
-        while(adjacentLocations.hasNext()) {
-            Location where = (Location) adjacentLocations.next();
-            Object animal = field.getObjectAt(where);
-            if(animal instanceof Rabbit) {
-                Rabbit rabbit = (Rabbit) animal;
-                if(rabbit.isAlive()) { 
-                    rabbit.setEaten();
-                    foodLevel = RABBIT_FOOD_VALUE;
-                    return where;
-                }
-            }
-        }
-        return null;
-    }
+
         
     /**
      * Generate a number representing the number of births,
