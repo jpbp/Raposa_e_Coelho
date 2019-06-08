@@ -1,4 +1,5 @@
 package raposa_e_coelho;
+import static java.util.Collections.list;
 import java.util.List;
 import java.util.Random;
 
@@ -13,86 +14,110 @@ public class Rabbit
 {
     // Characteristics shared by all rabbits (static fields).
 
-    // The age at which a rabbit can start to breed.
+    // idade em que o coelho pode procriar
     private static final int BREEDING_AGE = 5;
-    // The age to which a rabbit can live.
+    // o limite de idade de um coelho
     private static final int MAX_AGE = 50;
-    // The likelihood of a rabbit breeding.
+    //a probabilidade de procriação
     private static final double BREEDING_PROBABILITY = 0.15;
-    // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
-    // A shared random number generator to control breeding.
+    // o numero maximo de nascimento
+    private static final int MAX_LITTER_SIZE = 4;
+    //um gerador aleatorio compatilhado para controlar a procriação
     private static final Random rand = new Random();
     
     // Individual characteristics (instance fields).
     
-    // The rabbit's age.
+    // idade do coelho
     private int age;
-    // Whether the rabbit is alive or not.
+    // se o coleho esta vivou ou morto
     private boolean alive;
-    // The rabbit's position
+    //posicao do coelho
     private Location location;
-
+    //o campo ocupado
+    private Field field; 
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.
      * 
      * @param randomAge If true, the rabbit will have a random age.
      */
-    public Rabbit(boolean randomAge)
+    //contrutor arrumado!!!!
+    public Rabbit(boolean randomAge,Field field,Location location)
     {
         age = 0;
         alive = true;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
+        this.field=field;
+        this.location=location;
+        
     }
     
-    /**
-     * This is what the rabbit does most of the time - it runs 
-     * around. Sometimes it will breed or die of old age.
+    /** isso é o que o coelho faz a maior parte do tempo, ele corre livre. as vezes ele procria ou morre velho
+     * param newRabbits uma lista a qual adiconar os colehos recem-nascidos
+     * 
+     *
      */
-    public void run(Field updatedField, List newRabbits)
+    public void run(List newRabbits)
     {
         incrementAge();
         if(alive) {
-            int births = breed();
-            for(int b = 0; b < births; b++) {
-                Rabbit newRabbit = new Rabbit(false);
-                newRabbits.add(newRabbit);
-                Location loc = updatedField.randomAdjacentLocation(location);
-                newRabbit.setLocation(loc);
-                updatedField.place(newRabbit, loc);
-            }
-            Location newLocation = updatedField.freeAdjacentLocation(location);
-            // Only transfer to the updated field if there was a free location
-            if(newLocation != null) {
+            giveBirth(newRabbits);
+            //tenta mover-se para uma localizacao livre
+            Location newLocation= field.freeAdjacentLocation(location);
+            if(newLocation !=null){
                 setLocation(newLocation);
-                updatedField.place(this, newLocation);
             }
             else {
-                // can neither move nor stay - overcrowding - all locations taken
-                alive = false;
+                //superlotacao
+                setDead();
             }
         }
     }
     
+    //isso indica que o coleho não esta mais vivo
+    //ele é removido do campo
+    
+    
+    public void setDead(){
+        alive=false;
+        if(location!=null){
+            field.clear(location);
+            location=null;
+            field=null;
+        }
+    }
     /**
-     * Increase the age.
-     * This could result in the rabbit's death.
+     *aumenta a idade do coelho
+     *isso poderia resultar na morte de um coelho
      */
     private void incrementAge()
     {
         age++;
         if(age > MAX_AGE) {
-            alive = false;
+            setDead();
+        }
+    }
+    //verifica se o coelho deve ou não procriar nesse passo
+    //novos nascimentos serao criados en localizaocao adjacentes livres
+    //newRabbits uma lista a qual adiconar os coelhos recem nascidos
+    private void giveBirth(List<Rabbit> newRabbits){
+        //novas raposas nascem em locais adjacentes
+        //obtem uma lista das localizacoes livres
+        List<Location> free=field.getFreeAdjacentLocations(location);
+        int births=breed();
+        for (int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            Rabbit young = new Rabbit(false,field,loc);
+            newRabbits.add(young);
         }
     }
     
     /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
+     * gera um numero que representa o numero de nascimento se ele poder procriar
+     * 
+     * @return o numero de nascimento pode ser zero
      */
     private int breed()
     {
@@ -104,7 +129,7 @@ public class Rabbit
     }
 
     /**
-     * A rabbit can breed if it has reached the breeding age.
+     * Um coelho pode se reproduzir se atingir a idade de reprodução.
      */
     private boolean canBreed()
     {
@@ -112,16 +137,18 @@ public class Rabbit
     }
     
     /**
-     * Check whether the rabbit is alive or not.
+     * verifica se o coelho ta vivo ou morto
      * @return True if the rabbit is still alive.
      */
     public boolean isAlive()
     {
         return alive;
     }
+    
+   
 
     /**
-     * Tell the rabbit that it's dead now :(
+     * Diga ao coelho que está morto agora :( kkkkkkkkkk
      */
     public void setEaten()
     {
@@ -129,9 +156,9 @@ public class Rabbit
     }
     
     /**
-     * Set the animal's location.
-     * @param row The vertical coordinate of the location.
-     * @param col The horizontal coordinate of the location.
+        Defina a localização do animal.
+      * @param row A coordenada vertical do local.
+      * @param col A coordenada horizontal do local.
      */
     public void setLocation(int row, int col)
     {
