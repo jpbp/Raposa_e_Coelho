@@ -10,19 +10,19 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Fox
+public class Fox extends Animal
 {
     // Characteristics shared by all foxes (static fields).
     
-    // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 10;
-    // The age to which a fox can live.
-    private static final int MAX_AGE = 150;
-    // The likelihood of a fox breeding.
+    // A idade em que uma raposa pode começar a se reproduzir.
+    private static final int BREEDING_AGE = 5;
+    // A idade em que uma raposa pode viver.
+    private static final int MAX_AGE = 300;
+    // A probabilidade de uma criação de raposa.
     private static final double BREEDING_PROBABILITY = 0.09;
-    // The maximum number of births.
+    // O número máximo de nascimentos.
     private static final int MAX_LITTER_SIZE = 3;
-    // The food value of a single rabbit. In effect, this is the
+    // O valor alimentar de um único coelho. Com efeito, esta é a
     // number of steps a fox can go before it has to eat again.
     private static final int RABBIT_FOOD_VALUE = 7;
     // A shared random number generator to control breeding.
@@ -33,11 +33,7 @@ public class Fox
     // idade da raposa
     private int age;
     // se a raposa esta vida ou morta
-    private boolean alive;
-    // posicao da raposa
-    private Location location;
-    //o campo ocupado
-    private Field field;
+   
     // o nivel de alimenots da raposa, que aumenta comendo coelhos
     private int foodLevel;
 
@@ -49,16 +45,16 @@ public class Fox
      */
     public Fox(boolean randomAge,Field field,Location location)
     {
-        age = 0;
-        alive = true;
-        this.field=field;
-        this.location=location;
+        super(field,location);
+        
+        
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
             foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
         }
         else {
             // leave age at 0
+            age = 0;
             foodLevel = RABBIT_FOOD_VALUE;
         }
     }
@@ -68,17 +64,18 @@ public class Fox
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      */
-    public void hunt(List newFoxes)
+    public void hunt(List<Animal> newFoxes)
     {
         incrementAge();
         incrementHunger();
-        if(alive) {
+        if(isAlive()) {
                 giveBirth(newFoxes);
+                Location location=getLocation();
                 //mova-se para a fonte de alimento se encontrada.
                 Location newLocation=findFood(location);
                 if(newLocation == null){
                 //nenhum alineto enconrado tenta ,mover para uma localizacao livre
-                newLocation= field.freeAdjacentLocation(location);
+                newLocation= getField().freeAdjacentLocation(location);
                 }
                 //verifica se foi possivel mover-se
                 if(newLocation != null){
@@ -92,29 +89,18 @@ public class Fox
     }
         
     
-     //isso indica que a raposa não esta mais vivo
-    //ele é removido do campo
-    
-    
-    public void setDead(){
-        alive=false;
-        if(location!=null){
-            field.clear();
-            location=null;
-            field=null;
-        }
-    }
-    
+   
     
     
     
      //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-    private void giveBirth(List<Fox> newFoxes){
+    private void giveBirth(List<Animal> newFoxes){
         //novas raposas nascem em locais adjacentes
         //obtem uma lista das localizacoes livres
-        List<Location> free=field.getFreeAdjacentLocations(location);
+        Field field = getField();
+        List<Location> free=field.getFreeAdjacentLocations(getLocation());
         int births=breed();
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
@@ -129,7 +115,7 @@ public class Fox
      * 
      */
     private Location findFood(Location location){
-    
+    Field field=getField();
     List<Location> adjacent = field.adjacentLocations(location);
     Iterator<Location> it=adjacent.iterator();
     while(it.hasNext()){
@@ -139,6 +125,7 @@ public class Fox
             Rabbit rabbit=(Rabbit)animal;
             if(rabbit.isAlive()){
                 rabbit.setDead();
+                System.out.println("entrou aqui");
                 foodLevel=RABBIT_FOOD_VALUE;
                 return where;
             }
@@ -154,7 +141,7 @@ public class Fox
     {
         age++;
         if(age > MAX_AGE) {
-            alive = false;
+            setDead();
         }
     }
     
@@ -165,7 +152,7 @@ public class Fox
     {
         foodLevel--;
         if(foodLevel <= 0) {
-            alive = false;
+           setDead();
         }
     }
     
@@ -199,31 +186,13 @@ public class Fox
         return age >= BREEDING_AGE;
     }
     
-    /**
-     * Check whether the fox is alive or not.
-     * @return True if the fox is still alive.
-     */
-    public boolean isAlive()
-    {
-        return alive;
-    }
-
+  
     /**
      * Set the animal's location.
      * @param row The vertical coordinate of the location.
      * @param col The horizontal coordinate of the location.
      */
-    public void setLocation(int row, int col)
-    {
-        this.location = new Location(row, col);
-    }
+   
 
-    /**
-     * Set the fox's location.
-     * @param location The fox's location.
-     */
-    public void setLocation(Location location)
-    {
-        this.location = location;
-    }
+    
 }
