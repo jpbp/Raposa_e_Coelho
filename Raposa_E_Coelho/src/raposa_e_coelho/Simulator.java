@@ -43,16 +43,17 @@ public class Simulator
     /**
      * Construct a simulation field with default size.
      */
-    public Simulator()
-    {
-        this(DEFAULT_DEPTH, DEFAULT_WIDTH);
-    }
+   
     
     /**
      * Create a simulation field with the given size.
      * @param depth Depth of the field. Must be greater than zero.
      * @param width Width of the field. Must be greater than zero.
      */
+     public Simulator()
+    {
+        this(DEFAULT_DEPTH, DEFAULT_WIDTH);
+    }
     public Simulator(int depth, int width)
     {
         if(width <= 0 || depth <= 0) {
@@ -69,7 +70,7 @@ public class Simulator
         // criação de visualizacao do campo
         view = new SimulatorView(depth, width);
         view.setColor(Fox.class, Color.red);
-        view.setColor(Rabbit.class, Color.white);
+        view.setColor(Rabbit.class, Color.black);
         
         // configura um ponto inicial valido
         reset();
@@ -106,7 +107,6 @@ public class Simulator
       //Fornece espaço para animais recem-nascidos
       List<Rabbit> newRabbits=new ArrayList<>();
       List<Fox> newFoxes=new ArrayList<>();
-      
       for (Iterator<Rabbit> it =rabbits.iterator(); it.hasNext();){
           Rabbit rabbit=it.next();
           rabbit.run(newRabbits);
@@ -114,7 +114,6 @@ public class Simulator
               it.remove();
           }
       }
-      
       for (Iterator<Fox> it =foxes.iterator(); it.hasNext();){
           Fox fox=it.next();
           fox.hunt(newFoxes);
@@ -123,9 +122,11 @@ public class Simulator
           }
       }
       
-      rabbits.addAll(rabbits);
-      foxes.addAll(foxes);
+      rabbits.addAll(newRabbits);
+      foxes.addAll(newFoxes);
       view.showStatus(step, field);
+        System.out.println("coelhos: "+rabbits.size());
+        System.out.println("raposas: "+foxes.size());
     }
         
     /**
@@ -149,21 +150,22 @@ public class Simulator
     private void populate()
     {
         Random rand = new Random();
-        field.clear();
+       
+        //field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-               
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
                     foxes.add(fox);
-                    fox.setLocation(row, col);
-                    
+                    field.place(fox, row, col);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
                     rabbits.add(rabbit);
+                    
+                    field.place(rabbit, row, col);
                     
                 }
                 // else leave the location empty.
