@@ -10,7 +10,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Rabbit
+public class Rabbit extends Animal
 {
     // Characteristics shared by all rabbits (static fields).
 
@@ -30,28 +30,16 @@ public class Rabbit
     // idade do coelho
     private int age;
     // se o coleho esta vivou ou morto
-    private boolean alive;
-    //posicao do coelho
-    private Location location;
-    //o campo ocupado
-    private Field field; 
-    /**
-     * Create a new rabbit. A rabbit may be created with age
-     * zero (a new born) or with a random age.
-     * 
-     * @param randomAge If true, the rabbit will have a random age.
-     */
+ 
+   
     //contrutor arrumado!!!!
-    public Rabbit(boolean randomAge,Field field,Location location)
+   public Rabbit(boolean randomAge, Field field, Location location)
     {
+        super(field, location);
         age = 0;
-        alive = true;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
-        this.field=field;
-        this.location=location;
-        
     }
     
     /** isso é o que o coelho faz a maior parte do tempo, ele corre livre. as vezes ele procria ou morre velho
@@ -62,10 +50,10 @@ public class Rabbit
     public void run(List newRabbits)
     {
         incrementAge();
-        if(alive) {
+        if(isAlive()) {
             giveBirth(newRabbits);
             //tenta mover-se para uma localizacao livre
-            Location newLocation= field.freeAdjacentLocation(location);
+            Location newLocation= getField().freeAdjacentLocation(getLocation());
             if(newLocation !=null){
                 setLocation(newLocation);
             }
@@ -76,18 +64,7 @@ public class Rabbit
         }
     }
     
-    //isso indica que o coleho não esta mais vivo
-    //ele é removido do campo
     
-    
-    public void setDead(){
-        alive=false;
-        if(location!=null){
-            field.clear(location);
-            location=null;
-            field=null;
-        }
-    }
     /**
      *aumenta a idade do coelho
      *isso poderia resultar na morte de um coelho
@@ -102,14 +79,16 @@ public class Rabbit
     //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-    private void giveBirth(List<Rabbit> newRabbits){
-        //novas raposas nascem em locais adjacentes
-        //obtem uma lista das localizacoes livres
-        List<Location> free=field.getFreeAdjacentLocations(location);
-        int births=breed();
-        for (int b = 0; b < births && free.size() > 0; b++) {
+     private void giveBirth(List<Animal> newRabbits)
+    {
+        // New rabbits are born into adjacent locations.
+        // Get a list of adjacent free locations.
+        Field field = getField();
+        List<Location> free = field.getFreeAdjacentLocations(getLocation());
+        int births = breed();
+        for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false,field,loc);
+            Rabbit young = new Rabbit(false, field, loc);
             newRabbits.add(young);
         }
     }
@@ -135,42 +114,13 @@ public class Rabbit
     {
         return age >= BREEDING_AGE;
     }
+}
     
-    /**
-     * verifica se o coelho ta vivo ou morto
-     * @return True if the rabbit is still alive.
-     */
-    public boolean isAlive()
-    {
-        return alive;
-    }
+   
     
    
 
-    /**
-     * Diga ao coelho que está morto agora :( kkkkkkkkkk
-     */
-    public void setEaten()
-    {
-        alive = false;
-    }
     
-    /**
-        Defina a localização do animal.
-      * @param row A coordenada vertical do local.
-      * @param col A coordenada horizontal do local.
-     */
-    public void setLocation(int row, int col)
-    {
-        this.location = new Location(row, col);
-    }
+  
 
-    /**
-     * Set the rabbit's location.
-     * @param location The rabbit's location.
-     */
-    public void setLocation(Location location)
-    {
-        this.location = location;
-    }
-}
+   
