@@ -89,11 +89,8 @@ public class Fox
                     setDead();
                 }
         }
-        else {
-                // can neither move nor stay - overcrowding - all locations taken
-                alive = false;
-            }
-        }
+    }
+        
     
      //isso indica que a raposa não esta mais vivo
     //ele é removido do campo
@@ -102,7 +99,7 @@ public class Fox
     public void setDead(){
         alive=false;
         if(location!=null){
-            field.clear(location);
+            field.clear();
             location=null;
             field=null;
         }
