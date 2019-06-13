@@ -1,4 +1,5 @@
 package raposa_e_coelho;
+import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
 import java.util.Random;
@@ -47,11 +48,12 @@ public class Rabbit extends Animal
      * 
      *
      */
-    public void run(List newRabbits)
+   @Override
+    public void act(ArrayList <Animal> newAnimals)
     {
         incrementAge();
         if(isAlive()) {
-            giveBirth(newRabbits);
+            giveBirth(newAnimals);
             //tenta mover-se para uma localizacao livre
             Location newLocation= getField().freeAdjacentLocation(getLocation());
             if(newLocation !=null){
@@ -79,7 +81,7 @@ public class Rabbit extends Animal
     //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-     private void giveBirth(List<Animal> newRabbits)
+     private void giveBirth(ArrayList<Animal> newRabbits)
     {
         // New rabbits are born into adjacent locations.
         // Get a list of adjacent free locations.
