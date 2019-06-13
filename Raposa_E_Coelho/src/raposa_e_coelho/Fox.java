@@ -185,6 +185,7 @@ public class Fox extends Animal
     private boolean canBreed()
     {
         return age >= BREEDING_AGE;
+        
     }
     
   
