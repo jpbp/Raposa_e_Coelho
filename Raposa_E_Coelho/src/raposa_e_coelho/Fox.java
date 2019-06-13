@@ -1,4 +1,5 @@
 package raposa_e_coelho;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
@@ -64,12 +65,12 @@ public class Fox extends Animal
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      */
-    public void hunt(List<Animal> newFoxes)
+    public void act(ArrayList <Animal> newAnimals)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-                giveBirth(newFoxes);
+                giveBirth(newAnimals);
                 Location location=getLocation();
                 //mova-se para a fonte de alimento se encontrada.
                 Location newLocation=findFood(location);
@@ -96,7 +97,7 @@ public class Fox extends Animal
      //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-    private void giveBirth(List<Animal> newFoxes){
+    private void giveBirth(ArrayList<Animal> newFoxes){
         //novas raposas nascem em locais adjacentes
         //obtem uma lista das localizacoes livres
         Field field = getField();
@@ -125,7 +126,7 @@ public class Fox extends Animal
             Rabbit rabbit=(Rabbit)animal;
             if(rabbit.isAlive()){
                 rabbit.setDead();
-                System.out.println("entrou aqui");
+                
                 foodLevel=RABBIT_FOOD_VALUE;
                 return where;
             }
