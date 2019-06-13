@@ -5,11 +5,13 @@
  */
 package raposa_e_coelho;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Jp
  */
-public class Animal {
+public abstract class Animal  {
      // se o animal esta vivo ou morto
     private boolean alive;
     // posicao da animal
@@ -57,6 +59,8 @@ public class Animal {
         location = newLocation;
         field.place(this, newLocation);
     }
+    
+   abstract void act(ArrayList <Animal> newAnimals);
     
 }
     
