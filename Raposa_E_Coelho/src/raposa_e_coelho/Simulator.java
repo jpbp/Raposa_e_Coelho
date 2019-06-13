@@ -127,17 +127,7 @@ public class Simulator
       ArrayList<Animal> newAnimals=new ArrayList<>();
       for (Iterator<Animal> it =animals.iterator(); it.hasNext();){
           Animal animal =  it.next();
-          if(animal instanceof Rabbit){
-              Rabbit rabbit =(Rabbit) animal;
-              rabbit.run(newAnimals);
-          }
-          else if(animal instanceof Fox){
-              Fox fox = (Fox) animal;
-              fox.hunt(newAnimals);
-          }
-          else{
-              System.out.println("animal desconhecido!!!");
-          }
+          animal.act(newAnimals);
           if(!animal.isAlive()){
               it.remove();
           }
