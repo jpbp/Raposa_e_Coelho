@@ -27,8 +27,8 @@ public class Simulator
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
 
     //aA lista de animais no campo
-    private List<Fox> foxes;
-    private List<Rabbit> rabbits;
+    private ArrayList<Animal> animals;
+    
     
     
     
@@ -62,8 +62,8 @@ public class Simulator
             depth = DEFAULT_DEPTH;
             width = DEFAULT_WIDTH;
         }
-        rabbits =new ArrayList<Rabbit>();
-        foxes=new ArrayList<Fox>();
+        animals =new ArrayList<>();
+        
         field = new Field(depth, width);
        
 
@@ -83,6 +83,25 @@ public class Simulator
     public void runLongSimulation()
     {
         simulate(500);
+    }
+    
+    public int TamanhoFox(){
+        int cont=0;
+        for(Animal a: animals){
+            if(a instanceof Fox){
+                cont++;
+            }
+        }
+        return cont;
+    }
+    public int TamanhoRabbit(){
+        int cont=0;
+        for(Animal a: animals){
+            if(a instanceof Rabbit){
+                cont++;
+            }
+        }
+        return cont;
     }
     
     /**
@@ -105,28 +124,30 @@ public class Simulator
     {
         step++;
       //Fornece espaço para animais recem-nascidos
-      List<Rabbit> newRabbits=new ArrayList<>();
-      List<Fox> newFoxes=new ArrayList<>();
-      for (Iterator<Rabbit> it =rabbits.iterator(); it.hasNext();){
-          Rabbit rabbit=it.next();
-          rabbit.run(newRabbits);
-          if(!rabbit.isAlive()){
+      ArrayList<Animal> newAnimals=new ArrayList<>();
+      for (Iterator<Animal> it =animals.iterator(); it.hasNext();){
+          Animal animal =  it.next();
+          if(animal instanceof Rabbit){
+              Rabbit rabbit =(Rabbit) animal;
+              rabbit.run(newAnimals);
+          }
+          else if(animal instanceof Fox){
+              Fox fox = (Fox) animal;
+              fox.hunt(newAnimals);
+          }
+          else{
+              System.out.println("animal desconhecido!!!");
+          }
+          if(!animal.isAlive()){
               it.remove();
           }
       }
-      for (Iterator<Fox> it =foxes.iterator(); it.hasNext();){
-          Fox fox=it.next();
-          fox.hunt(newFoxes);
-          if(!fox.isAlive()){
-              it.remove();
-          }
-      }
+     
       
-      rabbits.addAll(newRabbits);
-      foxes.addAll(newFoxes);
+      animals.addAll(newAnimals);
       view.showStatus(step, field);
-        System.out.println("coelhos: "+rabbits.size());
-        System.out.println("raposas: "+foxes.size());
+        System.out.print(TamanhoFox()+" ");
+        System.out.println(TamanhoRabbit());
     }
         
     /**
@@ -135,9 +156,8 @@ public class Simulator
     public void reset()
     {
         step = 0;
-        rabbits.clear();
+        animals.clear();
         field.clear();
-        foxes.clear();
         populate();
         
         // Show the starting state in the view.
@@ -157,13 +177,13 @@ public class Simulator
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
-                    foxes.add(fox);
+                    animals.add(fox);
                     field.place(fox, row, col);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
-                    rabbits.add(rabbit);
+                    animals.add(rabbit);
                     
                     field.place(rabbit, row, col);
                     
@@ -171,7 +191,7 @@ public class Simulator
                 // else leave the location empty.
             }
         }
-        Collections.shuffle(foxes);
-        Collections.shuffle(rabbits);
+        Collections.shuffle(animals);
+       
     }
 }
