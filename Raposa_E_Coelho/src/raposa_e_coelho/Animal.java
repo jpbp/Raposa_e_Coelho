@@ -6,6 +6,7 @@
 package raposa_e_coelho;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -88,12 +89,26 @@ public abstract class Animal  {
             births = rand.nextInt(getMAX_LITTER_SIZE()) + 1;
         }
         return births;
-    }
-    
+    }  
+  
+     
+   protected void giveBirth(ArrayList<Animal> newAnimals){
+        //novas raposas nascem em locais adjacentes
+        //obtem uma lista das localizacoes livres
+        Field field = getField();
+        List<Location> free=field.getFreeAdjacentLocations(getLocation());
+        int births=breed();
+        for (int b = 0; b < births && free.size() > 0; b++) {
+            Location loc = free.remove(0);
+            Animal young = getAnimal(field,loc);
+            newAnimals.add(young);
+        }
+    }   
   abstract protected int getBreedingAge();
   abstract protected int getMAX_AGE();
   abstract protected double getBREEDING_PROBABILITY();
   abstract protected int getMAX_LITTER_SIZE();
+  abstract protected Animal getAnimal(Field field,Location loc);
     
     
   abstract void act(ArrayList <Animal> newAnimals);
