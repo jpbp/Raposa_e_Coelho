@@ -94,18 +94,7 @@ public class Fox extends Animal
      //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-    private void giveBirth(ArrayList<Animal> newFoxes){
-        //novas raposas nascem em locais adjacentes
-        //obtem uma lista das localizacoes livres
-        Field field = getField();
-        List<Location> free=field.getFreeAdjacentLocations(getLocation());
-        int births=breed();
-        for (int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Fox young = new Fox(false,field,loc);
-            newFoxes.add(young);
-        }
-    }
+   
     
     /**instrui a raposa procurar coelhos adjacentes ao seu local ataul
      * só o primeiro coelho é comido @param location onde no campo esta localizado
@@ -183,6 +172,12 @@ public class Fox extends Animal
     @Override
     public int getMAX_LITTER_SIZE(){
         return MAX_LITTER_SIZE;
+    }
+    
+    @Override
+    public Animal getAnimal (Field field,Location loc){
+        Fox young = new Fox(false,field,loc);
+        return young;
     }
             
             
