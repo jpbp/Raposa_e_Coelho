@@ -18,12 +18,17 @@ public abstract class Animal  {
     private Location location;
     //o campo ocupado pelo animal
     private Field field;
+    //idade do animal
+    
+    //duvida é melhor deixar esse metodo protegido ou fazer uma metdo para o acesso????????
+    protected int age;
 
     public Animal(Field field, Location location)
     {
         alive = true;
         this.field = field;
         setLocation(location);
+        age=0;
     }
     
      public boolean isAlive()
@@ -50,7 +55,7 @@ public abstract class Animal  {
     {
         return field;
     }
-         
+     //visibilidade protegida pois o metodo setLocation era privado tanta na raposa quanto no coelho  
     protected void setLocation(Location newLocation)
     {
         if(location != null) {
@@ -59,6 +64,23 @@ public abstract class Animal  {
         location = newLocation;
         field.place(this, newLocation);
     }
+    protected boolean canBreed()
+    {
+        return age >= getBreedingAge();
+        
+    }
+    
+    protected void incrementAge()
+    {
+        age++;
+        if(age > getMAX_AGE()) {
+            setDead();
+        }
+    }
+    
+  abstract protected int getBreedingAge();
+  abstract protected int getMAX_AGE();
+    
     
    abstract void act(ArrayList <Animal> newAnimals);
     
