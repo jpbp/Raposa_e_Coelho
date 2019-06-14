@@ -24,7 +24,7 @@ public class Simulator
    
 
     //aA lista de animais no campo
-    private ArrayList<Animal> animals;
+    private ArrayList<Actor> actors;
     
     
     
@@ -59,7 +59,7 @@ public class Simulator
             depth = DEFAULT_DEPTH;
             width = DEFAULT_WIDTH;
         }
-        animals =new ArrayList<>();
+        actors =new ArrayList<>();
         
         field = new Field(depth, width);
         
@@ -82,7 +82,7 @@ public class Simulator
         simulate(500);
     }
     
-    public int TamanhoFox(){
+    /*public int TamanhoFox(){
         int cont=0;
         for(Animal a: animals){
             if(a instanceof Fox){
@@ -100,6 +100,7 @@ public class Simulator
         }
         return cont;
     }
+    */
     
     /**
      * Run the simulation from its current state for the given number of steps.
@@ -121,20 +122,20 @@ public class Simulator
     {
         step++;
       //Fornece espaço para animais recem-nascidos
-      ArrayList<Animal> newAnimals=new ArrayList<>();
-      for (Iterator<Animal> it =animals.iterator(); it.hasNext();){
-          Animal animal =  it.next();
-          animal.act(newAnimals);
-          if(!animal.isAlive()){
+      ArrayList<Actor> newActors=new ArrayList<>();
+      for (Iterator<Actor> it =actors.iterator(); it.hasNext();){
+          Actor actor =  it.next();
+          actor.act(newActors);
+          if(!actor.isActive()){
               it.remove();
           }
       }
      
       
-      animals.addAll(newAnimals);
+      actors.addAll(newActors);
       view.showStatus(step, field);
-        System.out.print(TamanhoFox()+" ");
-        System.out.println(TamanhoRabbit());
+        //System.out.print(TamanhoFox()+" ");
+        //System.out.println(TamanhoRabbit());
     }
         
     /**
@@ -143,9 +144,9 @@ public class Simulator
     public void reset()
     {
         step = 0;
-        animals.clear();
+        actors.clear();
         field.clear();
-        populationGenerator.populate(field,animals);
+        populationGenerator.populate(field,actors);
         
         // Show the starting state in the view.
         view.showStatus(step, field);
