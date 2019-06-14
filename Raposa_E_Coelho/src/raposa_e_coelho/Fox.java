@@ -62,12 +62,12 @@ public class Fox extends Animal
      * rabbits. In the process, it might breed, die of hunger,
      * or die of old age.
      */
-    public void act(ArrayList <Animal> newAnimals)
+    public void act(ArrayList<Actor> NewActors)
     {
         incrementAge();
         incrementHunger();
         if(isAlive()) {
-                giveBirth(newAnimals);
+                giveBirth(NewActors);
                 Location location=getLocation();
                 //mova-se para a fonte de alimento se encontrada.
                 Location newLocation=findFood(location);
