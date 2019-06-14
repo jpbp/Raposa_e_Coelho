@@ -13,7 +13,7 @@ import java.util.Random;
  *
  * @author Jp
  */
-public abstract class Animal  {
+public abstract class Animal extends Actor  {
      // se o animal esta vivo ou morto
     private boolean alive;
     // posicao da animal
@@ -39,6 +39,11 @@ public abstract class Animal  {
     {
         return alive;
     }
+  
+    @Override
+     public boolean isActive(){
+         return isAlive();
+     }
      
     protected void setDead()
     {
@@ -92,7 +97,7 @@ public abstract class Animal  {
     }  
   
      
-   protected void giveBirth(ArrayList<Animal> newAnimals){
+   protected void giveBirth(ArrayList<Actor> NewActors){
         //novas raposas nascem em locais adjacentes
         //obtem uma lista das localizacoes livres
         Field field = getField();
@@ -101,7 +106,7 @@ public abstract class Animal  {
         for (int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             Animal young = getAnimal(field,loc);
-            newAnimals.add(young);
+            NewActors.add(young);
         }
     }   
   abstract protected int getBreedingAge();
@@ -110,8 +115,8 @@ public abstract class Animal  {
   abstract protected int getMAX_LITTER_SIZE();
   abstract protected Animal getAnimal(Field field,Location loc);
     
-    
-  abstract void act(ArrayList <Animal> newAnimals);
+  @Override
+  public abstract void act(ArrayList<Actor> NewActors);
     
 }
     
