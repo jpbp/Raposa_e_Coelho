@@ -6,6 +6,7 @@
 package raposa_e_coelho;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -19,6 +20,8 @@ public abstract class Animal  {
     //o campo ocupado pelo animal
     private Field field;
     //idade do animal
+    
+    private static final Random rand = new Random();
     
     //duvida é melhor deixar esse metodo protegido ou fazer uma metdo para o acesso????????
     protected int age;
@@ -78,11 +81,22 @@ public abstract class Animal  {
         }
     }
     
+     protected int breed()
+    {
+        int births = 0;
+        if(canBreed() && rand.nextDouble() <= getBREEDING_PROBABILITY()) {
+            births = rand.nextInt(getMAX_LITTER_SIZE()) + 1;
+        }
+        return births;
+    }
+    
   abstract protected int getBreedingAge();
   abstract protected int getMAX_AGE();
+  abstract protected double getBREEDING_PROBABILITY();
+  abstract protected int getMAX_LITTER_SIZE();
     
     
-   abstract void act(ArrayList <Animal> newAnimals);
+  abstract void act(ArrayList <Animal> newAnimals);
     
 }
     
