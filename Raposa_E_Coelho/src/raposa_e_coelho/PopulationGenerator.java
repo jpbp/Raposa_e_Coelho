@@ -28,7 +28,7 @@ public class PopulationGenerator {
     }
     
     
-     public void populate(Field field,ArrayList<Animal> animals)
+     public void populate(Field field,ArrayList<Actor> actors)
     {
        
         Random rand = new Random();
@@ -39,13 +39,13 @@ public class PopulationGenerator {
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
-                    animals.add(fox);
+                    actors.add(fox);
                     field.place(fox, row, col);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
-                    animals.add(rabbit);
+                    actors.add(rabbit);
                     
                     field.place(rabbit, row, col);
                     
@@ -53,7 +53,7 @@ public class PopulationGenerator {
                 // else leave the location empty.
             }
         }
-        Collections.shuffle(animals);
+        Collections.shuffle(actors);
       
     }
 }
