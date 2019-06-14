@@ -73,19 +73,7 @@ public class Rabbit extends Animal
     //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-     private void giveBirth(ArrayList<Animal> newRabbits)
-    {
-        // New rabbits are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
-            newRabbits.add(young);
-        }
-    }
+  
     
     /**
      * gera um numero que representa o numero de nascimento se ele poder procriar
@@ -117,6 +105,11 @@ public class Rabbit extends Animal
     @Override
     public int getMAX_LITTER_SIZE(){
         return MAX_LITTER_SIZE;
+    }
+    @Override
+    public Animal getAnimal (Field field,Location loc){
+        Rabbit young = new Rabbit(false,field,loc);
+        return young;
     }
     
 }
