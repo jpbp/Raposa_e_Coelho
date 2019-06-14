@@ -28,8 +28,7 @@ public class Rabbit extends Animal
     
     // Individual characteristics (instance fields).
     
-    // idade do coelho
-    private int age;
+
     // se o coleho esta vivou ou morto
  
    
@@ -37,7 +36,6 @@ public class Rabbit extends Animal
    public Rabbit(boolean randomAge, Field field, Location location)
     {
         super(field, location);
-        age = 0;
         if(randomAge) {
             age = rand.nextInt(MAX_AGE);
         }
@@ -71,13 +69,7 @@ public class Rabbit extends Animal
      *aumenta a idade do coelho
      *isso poderia resultar na morte de um coelho
      */
-    private void incrementAge()
-    {
-        age++;
-        if(age > MAX_AGE) {
-            setDead();
-        }
-    }
+    
     //verifica se o coelho deve ou não procriar nesse passo
     //novos nascimentos serao criados en localizaocao adjacentes livres
     //newRabbits uma lista a qual adiconar os coelhos recem nascidos
@@ -112,10 +104,17 @@ public class Rabbit extends Animal
     /**
      * Um coelho pode se reproduzir se atingir a idade de reprodução.
      */
-    private boolean canBreed()
-    {
-        return age >= BREEDING_AGE;
+    
+    
+    @Override
+    public int getBreedingAge(){
+        return BREEDING_AGE;
     }
+    @Override
+    public int getMAX_AGE(){
+        return MAX_AGE;
+    }
+    
 }
     
    
