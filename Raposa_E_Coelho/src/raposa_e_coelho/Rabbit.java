@@ -92,14 +92,9 @@ public class Rabbit extends Animal
      * 
      * @return o numero de nascimento pode ser zero
      */
-    private int breed()
-    {
-        int births = 0;
-        if(canBreed() && rand.nextDouble() <= BREEDING_PROBABILITY) {
-            births = rand.nextInt(MAX_LITTER_SIZE) + 1;
-        }
-        return births;
-    }
+     
+     // colocar esse metdo na classe animal??????
+  
 
     /**
      * Um coelho pode se reproduzir se atingir a idade de reprodução.
@@ -113,6 +108,15 @@ public class Rabbit extends Animal
     @Override
     public int getMAX_AGE(){
         return MAX_AGE;
+    }
+     @Override
+    public double getBREEDING_PROBABILITY(){
+        return BREEDING_PROBABILITY;
+    }
+    
+    @Override
+    public int getMAX_LITTER_SIZE(){
+        return MAX_LITTER_SIZE;
     }
     
 }
