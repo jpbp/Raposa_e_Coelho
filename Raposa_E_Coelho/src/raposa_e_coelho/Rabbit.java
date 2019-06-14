@@ -47,11 +47,11 @@ public class Rabbit extends Animal
      *
      */
    @Override
-    public void act(ArrayList <Animal> newAnimals)
+    public void act(ArrayList<Actor> NewActors)
     {
         incrementAge();
         if(isAlive()) {
-            giveBirth(newAnimals);
+            giveBirth(NewActors);
             //tenta mover-se para uma localizacao livre
             Location newLocation= getField().freeAdjacentLocation(getLocation());
             if(newLocation !=null){
