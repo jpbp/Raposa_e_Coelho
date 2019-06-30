@@ -26,6 +26,7 @@ public abstract class Animal implements Actor  {
     //duvida é melhor deixar esse metodo protegido ou fazer uma metdo para o acesso????????
     protected int age;
     
+    private boolean female;
     
 
     public Animal(Field field, Location location)
@@ -34,6 +35,13 @@ public abstract class Animal implements Actor  {
         this.field = field;
         setLocation(location);
         age=0;
+        int number = Randomizer.getRandomInt(10);
+        if(number % 2 ==0){
+            female = false;
+        }
+        else{
+            female = true;
+        }
     }
     
      public boolean isAlive()
@@ -78,7 +86,7 @@ public abstract class Animal implements Actor  {
     }
     protected boolean canBreed()
     {
-        return age >= getBreedingAge();
+        return (age >= getBreedingAge() && female);
         
     }
     

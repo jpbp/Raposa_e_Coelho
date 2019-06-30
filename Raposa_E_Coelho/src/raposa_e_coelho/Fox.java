@@ -35,6 +35,8 @@ public class Fox extends Animal
    
     // o nivel de alimenots da raposa, que aumenta comendo coelhos
     private int foodLevel;
+    
+    
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
