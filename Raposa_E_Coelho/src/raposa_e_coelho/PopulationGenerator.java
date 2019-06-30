@@ -17,14 +17,22 @@ public class PopulationGenerator {
     
 
      // The probability that a fox will be created in any given grid position.
-    private static final double FOX_CREATION_PROBABILITY = 0.02;
+    private static final double FOX_CREATION_PROBABILITY = 0.02; //0.02
     // The probability that a rabbit will be created in any given grid position.
-    private static final double RABBIT_CREATION_PROBABILITY = 0.08;   
+    private static final double RABBIT_CREATION_PROBABILITY = 0.08;
+    // The probability that a hunter will be created in any given grid position.
+    private static final double HUNTER_CREATION_PROBABILITY = 0.005;
+    // The probability that a hunter will be created in any given grid position.
+    private static final double TRAP_CREATION_PROBABILITY = 0.0005;
     
     
 
     public PopulationGenerator() {
       
+    }
+    
+    public void adicionarTrap(Field field, ArrayList<Actor> actors){
+        
     }
     
     
@@ -36,12 +44,30 @@ public class PopulationGenerator {
         //field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(Randomizer.getRandomDouble() <= FOX_CREATION_PROBABILITY) {
+                if(Randomizer.getRandomDouble() <= TRAP_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    Trap trap = new Trap(field,location);
+                    actors.add(trap);
+                    
+                    field.place(trap,row,col);
+                }
+                
+                else if(Randomizer.getRandomDouble() <= HUNTER_CREATION_PROBABILITY){
+                    Location location = new Location(row,col);
+                    Cacador cacador = new Cacador(field,location);
+                    actors.add(cacador);
+                    
+                    field.place(cacador,row,col);
+                }
+                
+                else if(Randomizer.getRandomDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
                     actors.add(fox);
                     field.place(fox, row, col);
                 }
+                
+
                 else if(Randomizer.getRandomDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
@@ -50,6 +76,9 @@ public class PopulationGenerator {
                     field.place(rabbit, row, col);
                     
                 }
+                
+                
+                
                 // else leave the location empty.
             }
         }

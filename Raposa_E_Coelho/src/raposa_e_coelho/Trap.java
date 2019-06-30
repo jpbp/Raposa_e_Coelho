@@ -31,11 +31,7 @@ public class Trap implements Actor{
     public Field getField(){
         return field;
     }
-    
-    private Location adjacentLocation(){
-        return getField().freeAdjacentLocation(location);
-    }
-    
+        
     //Métodos
     @Override
     public void setLocation(Location newLocation){
@@ -87,7 +83,7 @@ public class Trap implements Actor{
         Location surrounding = checkSurroundings(location);
         if(surrounding != null){
             engage(surrounding);
-            setInactive();
+            this.setInactive();
         }
     }
 }

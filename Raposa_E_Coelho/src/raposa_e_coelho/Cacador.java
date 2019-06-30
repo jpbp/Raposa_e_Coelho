@@ -23,6 +23,7 @@ public class Cacador implements Actor{
     
     private boolean active;
     
+    
     //Construtor
     public Cacador(Field field, Location location){
         this.field = field;
@@ -35,10 +36,10 @@ public class Cacador implements Actor{
         return field;
     }
     
-    private Location adjacentLocation(){
-        return getField().freeAdjacentLocation(location);
+    public Location getLocation(){
+        return location;
     }
-    
+        
     @Override
     public void setLocation(Location newLocation){
         if(location != null){
@@ -63,10 +64,10 @@ public class Cacador implements Actor{
     
     //@Override
     public void move(){
-        Location newLocation = adjacentLocation();
-        if(newLocation != null){
-            setLocation(newLocation);
-        }
+        Location newLocation = getField().freeAdjacentLocation(getLocation());
+            if(newLocation !=null){
+                setLocation(newLocation);
+            }
     }
     
    // @Override
@@ -84,14 +85,16 @@ public class Cacador implements Actor{
         return null;
     }
     
-    public void plantTrap(){
-        Location trapLocation = adjacentLocation();
+    public Trap plantTrap(){
+        Location trapLocation = getField().freeAdjacentLocation(getLocation());
         if(trapLocation != null){
             int setTrap = Randomizer.getRandomInt(100);
             if(setTrap < SET_TRAP_CHANCE){
                 Trap newTrap = new Trap(getField(),trapLocation);
+                return newTrap;
             }
         }
+        return null;
     }
     
     public void hunt(Location location){
@@ -112,11 +115,11 @@ public class Cacador implements Actor{
             hunt(surrounding);
         }
         else{
-            plantTrap();
+            Trap newTrap = plantTrap();
+            if(newTrap != null){
+                NewActors.add(newTrap);
+            }
         }
     }
-        
-        
-    
-    
+           
 }

@@ -18,9 +18,9 @@ public class Simulator
     // The private static final variables represent 
     // configuration information for the simulation.
     // The default width for the grid.
-    private static final int DEFAULT_WIDTH = 50;
+    private static final int DEFAULT_WIDTH = 100;
     // The default depth of the grid.
-    private static final int DEFAULT_DEPTH = 50;
+    private static final int DEFAULT_DEPTH = 100;
    
 
     //aA lista de animais no campo
@@ -68,6 +68,8 @@ public class Simulator
         view = new AnimatedView(depth, width);
         view.setColor(Fox.class, Color.red);
         view.setColor(Rabbit.class, Color.black);
+        view.setColor(Cacador.class,Color.blue);
+        view.setColor(Trap.class,Color.yellow);
         populationGenerator = new PopulationGenerator();
         // configura um ponto inicial valido
         reset();
@@ -77,7 +79,7 @@ public class Simulator
      * Run the simulation from its current state for a reasonably long period,
      * e.g. 500 steps.
      */
-    public void runLongSimulation()
+    public void runLongSimulation()throws InterruptedException
     {
         simulate(500);
     }
@@ -106,10 +108,12 @@ public class Simulator
      * Run the simulation from its current state for the given number of steps.
      * Stop before the given number of steps if it ceases to be viable.
      */
-    public void simulate(int numSteps)
+    public void simulate(int numSteps) throws InterruptedException
     {
+        
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
+            Thread.currentThread().sleep(500); // 1 segundo
         }
     }
     
@@ -126,7 +130,9 @@ public class Simulator
       for (Iterator<Actor> it =actors.iterator(); it.hasNext();){
           Actor actor =  it.next();
           actor.act(newActors);
+          
           if(!actor.isActive()){
+
               it.remove();
           }
       }
