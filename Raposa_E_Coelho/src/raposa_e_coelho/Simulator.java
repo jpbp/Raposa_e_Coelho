@@ -35,7 +35,7 @@ public class Simulator
     // o passo atual da simulacao
     private int step;
     // A graphical view of the simulation.
-    private SimulatorView view;
+    private AnimatedView view;
     private PopulationGenerator populationGenerator;
     /**
      * Construct a simulation field with default size.
@@ -65,7 +65,7 @@ public class Simulator
         
 
         // criação de visualizacao do campo
-        view = new SimulatorView(depth, width);
+        view = new AnimatedView(depth, width);
         view.setColor(Fox.class, Color.red);
         view.setColor(Rabbit.class, Color.black);
         populationGenerator = new PopulationGenerator();
