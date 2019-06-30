@@ -122,7 +122,7 @@ public class Simulator
     {
         step++;
       //Fornece espaço para animais recem-nascidos
-      ArrayList<Actor> newActors=new ArrayList<>();
+      ArrayList<Actor> newActors=new ArrayList<Actor>();
       for (Iterator<Actor> it =actors.iterator(); it.hasNext();){
           Actor actor =  it.next();
           actor.act(newActors);
