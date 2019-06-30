@@ -13,7 +13,7 @@ import java.util.Random;
  *
  * @author Jp
  */
-public abstract class Animal extends Actor  {
+public abstract class Animal implements Actor  {
      // se o animal esta vivo ou morto
     private boolean alive;
     // posicao da animal
@@ -116,7 +116,7 @@ public abstract class Animal extends Actor  {
   abstract protected Animal getAnimal(Field field,Location loc);
     
   @Override
-  public abstract void act(ArrayList<Actor> NewActors);
+public abstract void act(ArrayList<Actor> NewActors);
     
 }
     
