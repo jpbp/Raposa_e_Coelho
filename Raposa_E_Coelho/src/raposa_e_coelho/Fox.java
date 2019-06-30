@@ -80,7 +80,7 @@ public class Fox extends Animal
                 }
                 else{
                     //superLotacao
-                    setDead();
+                    setInactive();
                 }
         }
     }
@@ -110,7 +110,7 @@ public class Fox extends Animal
         if(animal instanceof Rabbit){
             Rabbit rabbit=(Rabbit)animal;
             if(rabbit.isAlive()){
-                rabbit.setDead();
+                rabbit.setInactive();
                 
                 foodLevel=RABBIT_FOOD_VALUE;
                 return where;
@@ -132,7 +132,7 @@ public class Fox extends Animal
     {
         foodLevel--;
         if(foodLevel <= 0) {
-           setDead();
+           setInactive();
         }
     }
     

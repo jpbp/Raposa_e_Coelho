@@ -12,7 +12,12 @@ import java.util.ArrayList;
  * @author Jp
  */
 public interface Actor {
-     void act (ArrayList<Actor> NewActors);
-     boolean isActive();
+    
+    public void act(ArrayList<Actor> NewActors);
+    public boolean isActive();
+    public void setInactive();
+    public void setLocation(Location newLocation);
+   // public void move();
+    //public Location checkSurroundings(Location currentLocation);
     
 }

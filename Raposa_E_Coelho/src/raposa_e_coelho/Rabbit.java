@@ -59,7 +59,7 @@ public class Rabbit extends Animal
             }
             else {
                 //superlotacao
-                setDead();
+                setInactive();
             }
         }
     }

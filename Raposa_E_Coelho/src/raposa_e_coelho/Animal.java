@@ -46,7 +46,8 @@ public abstract class Animal implements Actor  {
          return isAlive();
      }
      
-    protected void setDead()
+    @Override
+    public void setInactive()
     {
         alive = false;
         if(location != null) {
@@ -66,7 +67,8 @@ public abstract class Animal implements Actor  {
         return field;
     }
      //visibilidade protegida pois o metodo setLocation era privado tanta na raposa quanto no coelho  
-    protected void setLocation(Location newLocation)
+    @Override
+    public void setLocation(Location newLocation)
     {
         if(location != null) {
             field.clear(location);
@@ -84,7 +86,7 @@ public abstract class Animal implements Actor  {
     {
         age++;
         if(age > getMAX_AGE()) {
-            setDead();
+            setInactive();
         }
     }
     
