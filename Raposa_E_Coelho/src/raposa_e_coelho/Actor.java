@@ -11,9 +11,8 @@ import java.util.ArrayList;
  *
  * @author Jp
  */
-public abstract class Actor {
-    
-    abstract public void act (ArrayList<Actor> NewActors);
-    abstract public boolean isActive();
+public interface Actor {
+     void act (ArrayList<Actor> NewActors);
+     boolean isActive();
     
 }
