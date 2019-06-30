@@ -44,15 +44,16 @@ public class SimulatorView extends JFrame
         stepLabel = new JLabel(STEP_PREFIX, JLabel.CENTER);
         population = new JLabel(POPULATION_PREFIX, JLabel.CENTER);
         
-        setLocation(100, 50);
+        setLocation(height,width );
         
         fieldView = new FieldView(height, width);
 
         Container contents = getContentPane();
-        contents.add(stepLabel, BorderLayout.NORTH);
+        contents.add(stepLabel,BorderLayout.NORTH);
         contents.add(fieldView, BorderLayout.CENTER);
         contents.add(population, BorderLayout.SOUTH);
         pack();
+        
         setVisible(true);
     }
     
