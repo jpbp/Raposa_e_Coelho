@@ -31,18 +31,18 @@ public class PopulationGenerator {
      public void populate(Field field,ArrayList<Actor> actors)
     {
        
-        Random rand = new Random();
+        
        
         //field.clear();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
+                if(Randomizer.getRandomDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
                     actors.add(fox);
                     field.place(fox, row, col);
                 }
-                else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
+                else if(Randomizer.getRandomDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
                     actors.add(rabbit);

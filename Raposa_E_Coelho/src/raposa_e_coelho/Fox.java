@@ -26,8 +26,7 @@ public class Fox extends Animal
     // O valor alimentar de um único coelho. Com efeito, esta é a
     // number of steps a fox can go before it has to eat again.
     private static final int RABBIT_FOOD_VALUE = 7;
-    // A shared random number generator to control breeding.
-    private static final Random rand = new Random();
+    
     
     // Individual characteristics (instance fields).
 
@@ -47,8 +46,8 @@ public class Fox extends Animal
     {
         super(field,location);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
+            age = Randomizer.getRandomInt(MAX_AGE);
+            foodLevel = Randomizer.getRandomInt(RABBIT_FOOD_VALUE);
         }
         else {
             // leave age at 0

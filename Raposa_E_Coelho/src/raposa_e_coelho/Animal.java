@@ -22,10 +22,11 @@ public abstract class Animal implements Actor  {
     private Field field;
     //idade do animal
     
-    private static final Random rand = new Random();
     
     //duvida é melhor deixar esse metodo protegido ou fazer uma metdo para o acesso????????
     protected int age;
+    
+    
 
     public Animal(Field field, Location location)
     {
@@ -90,8 +91,8 @@ public abstract class Animal implements Actor  {
      protected int breed()
     {
         int births = 0;
-        if(canBreed() && rand.nextDouble() <= getBREEDING_PROBABILITY()) {
-            births = rand.nextInt(getMAX_LITTER_SIZE()) + 1;
+        if(canBreed() && Randomizer.getRandomDouble() <= getBREEDING_PROBABILITY()) {
+            births = Randomizer.getRandomInt(getMAX_LITTER_SIZE()) + 1;
         }
         return births;
     }  
@@ -115,7 +116,7 @@ public abstract class Animal implements Actor  {
   abstract protected int getMAX_LITTER_SIZE();
   abstract protected Animal getAnimal(Field field,Location loc);
     
-  @Override
+@Override
 public abstract void act(ArrayList<Actor> NewActors);
     
 }
