@@ -11,8 +11,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-11
  */
-public class Rabbit extends Animal
-{
+public class Rabbit extends Animal{
     // Characteristics shared by all rabbits (static fields).
 
     // idade em que o coelho pode procriar
