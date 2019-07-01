@@ -63,6 +63,7 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         pack();
         
         setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     
     /**
