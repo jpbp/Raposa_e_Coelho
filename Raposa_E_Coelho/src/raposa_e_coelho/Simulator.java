@@ -69,7 +69,8 @@ public class Simulator
         view.setColor(Fox.class, Color.red);
         view.setColor(Rabbit.class, Color.black);
         view.setColor(Cacador.class,Color.blue);
-        view.setColor(Trap.class,Color.yellow);
+        view.setColor(Trap.class,Color.orange);
+        view.setColor(Grass.class,Color.green);
         populationGenerator = new PopulationGenerator();
         // configura um ponto inicial valido
         reset();
@@ -113,7 +114,7 @@ public class Simulator
         
         for(int step = 1; step <= numSteps && view.isViable(field); step++) {
             simulateOneStep();
-            Thread.currentThread().sleep(500); // 1 segundo
+            Thread.currentThread().sleep(0); // 1 segundo
         }
     }
     

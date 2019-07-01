@@ -22,8 +22,11 @@ public class PopulationGenerator {
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;
     // The probability that a hunter will be created in any given grid position.
     private static final double HUNTER_CREATION_PROBABILITY = 0.005;
-    // The probability that a hunter will be created in any given grid position.
+    // The probability that a trap will be created in any given grid position.
     private static final double TRAP_CREATION_PROBABILITY = 0.0005;
+    // The probability that grass will be created in any given grid position.
+    private static final double GRASS_CREATION_PROBABILITY = 0.09;
+    
     
     
 
@@ -77,6 +80,14 @@ public class PopulationGenerator {
                     
                 }
                 
+                else if(Randomizer.getRandomDouble() <= GRASS_CREATION_PROBABILITY) {
+                    Location location=new Location(row,col);
+                    Grass grass = new Grass(true,field,location);
+                    actors.add(grass);
+                    
+                    field.place(grass, row, col);
+                    
+                }
                 
                 
                 // else leave the location empty.

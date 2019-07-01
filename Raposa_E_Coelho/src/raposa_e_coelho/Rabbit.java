@@ -24,7 +24,7 @@ public class Rabbit extends Animal
     // o numero maximo de nascimento
     private static final int MAX_LITTER_SIZE = 4;
     //um gerador aleatorio compatilhado para controlar a procriação
-    private static final Random rand = new Random();
+    private static final int GRASS_FOOD_VALUE = 12;
     
     // Individual characteristics (instance fields).
     
@@ -37,7 +37,11 @@ public class Rabbit extends Animal
     {
         super(field, location);
         if(randomAge) {
-            age = rand.nextInt(MAX_AGE);
+            age = Randomizer.getRandomInt(MAX_AGE);
+            setFoodLevel(Randomizer.getRandomInt(getFOOD_VALUE()));
+        }
+        else{
+            setFoodLevel(getFOOD_VALUE());
         }
     }
     
@@ -49,11 +53,16 @@ public class Rabbit extends Animal
    @Override
     public void act(ArrayList<Actor> NewActors)
     {
+        incrementHunger();
         incrementAge();
         if(isAlive()) {
             giveBirth(NewActors);
+            Location location = getLocation();
+            Location newLocation = findFood(location);
+            if(newLocation == null){
             //tenta mover-se para uma localizacao livre
-            Location newLocation= getField().freeAdjacentLocation(getLocation());
+                newLocation= getField().freeAdjacentLocation(getLocation());
+            }
             if(newLocation !=null){
                 setLocation(newLocation);
             }
@@ -63,6 +72,8 @@ public class Rabbit extends Animal
             }
         }
     }
+    
+    
     
     
     /**
@@ -110,6 +121,24 @@ public class Rabbit extends Animal
     public Animal getAnimal (Field field,Location loc){
         Rabbit young = new Rabbit(false,field,loc);
         return young;
+    }
+    
+    
+    @Override
+    protected boolean compatibleFood(Actor prey){
+        if(prey instanceof Grass){
+            Grass grass = (Grass)prey;
+            if(grass.isActive()){
+                grass.setInactive();
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    protected int getFOOD_VALUE(){
+        return GRASS_FOOD_VALUE;
     }
     
 }

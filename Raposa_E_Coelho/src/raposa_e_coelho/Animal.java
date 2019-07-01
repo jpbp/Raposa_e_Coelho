@@ -6,6 +6,7 @@
 package raposa_e_coelho;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -28,6 +29,7 @@ public abstract class Animal implements Actor  {
     
     private boolean female;
     
+    private int foodLevel;
 
     public Animal(Field field, Location location)
     {
@@ -42,7 +44,10 @@ public abstract class Animal implements Actor  {
         else{
             female = true;
         }
+        foodLevel = getFOOD_VALUE();
+        
     }
+    
     
      public boolean isAlive()
     {
@@ -70,6 +75,8 @@ public abstract class Animal implements Actor  {
         return location;
     }
        
+    
+    
     public Field getField()
     {
         return field;
@@ -119,7 +126,38 @@ public abstract class Animal implements Actor  {
             Animal young = getAnimal(field,loc);
             NewActors.add(young);
         }
-    }   
+    }
+
+   protected Location findFood(Location location){
+       Field field = getField();
+       List<Location> adjacent = field.adjacentLocations(location);
+       Iterator<Location> it = adjacent.iterator();
+       while(it.hasNext()){
+           Location where = it.next();
+           Actor food = field.getObjectAt(location);
+           if(compatibleFood(food)){
+               foodLevel = getFOOD_VALUE();
+               return where;
+           }
+       }
+       return null;
+   }
+  
+   protected void incrementHunger()
+    {
+        foodLevel--;
+        if(foodLevel <= 0) {
+           setInactive();
+        }
+    }
+   
+   protected void setFoodLevel(int value){
+       foodLevel = value;
+   }
+   
+   
+  abstract protected boolean compatibleFood(Actor prey);
+  abstract protected int getFOOD_VALUE();
   abstract protected int getBreedingAge();
   abstract protected int getMAX_AGE();
   abstract protected double getBREEDING_PROBABILITY();

@@ -25,7 +25,7 @@ public class Fox extends Animal
     private static final int MAX_LITTER_SIZE = 3;
     // O valor alimentar de um único coelho. Com efeito, esta é a
     // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 7;
+    private static final int RABBIT_FOOD_VALUE = 20;
     
     
     // Individual characteristics (instance fields).
@@ -34,7 +34,6 @@ public class Fox extends Animal
     // se a raposa esta vida ou morta
    
     // o nivel de alimenots da raposa, que aumenta comendo coelhos
-    private int foodLevel;
     
     
 
@@ -49,12 +48,12 @@ public class Fox extends Animal
         super(field,location);
         if(randomAge) {
             age = Randomizer.getRandomInt(MAX_AGE);
-            foodLevel = Randomizer.getRandomInt(RABBIT_FOOD_VALUE);
+            setFoodLevel(Randomizer.getRandomInt(getFOOD_VALUE()));
         }
         else {
             // leave age at 0
            
-            foodLevel = RABBIT_FOOD_VALUE;
+            setFoodLevel(getFOOD_VALUE());
         }
     }
     
@@ -102,41 +101,32 @@ public class Fox extends Animal
      * retun onde o alimento foi encontardo ou null caso contrario
      * 
      */
-    private Location findFood(Location location){
-    Field field=getField();
-    List<Location> adjacent = field.adjacentLocations(location);
-    Iterator<Location> it=adjacent.iterator();
-    while(it.hasNext()){
-        Location where=it.next();
-        Object animal=field.getObjectAt(where);
-        if(animal instanceof Rabbit){
-            Rabbit rabbit=(Rabbit)animal;
-            if(rabbit.isAlive()){
-                rabbit.setInactive();
-                
-                foodLevel=RABBIT_FOOD_VALUE;
-                return where;
-            }
-        }
-    }
-    return null;
-    }
+   
     
     /**
      * Increase the age. This could result in the fox's death.
      */
-  
+    @Override
+    protected boolean compatibleFood(Actor prey){
+        if(prey instanceof Rabbit){
+            Rabbit rabbit = (Rabbit)prey;
+            if(rabbit.isAlive()){
+                rabbit.setInactive();
+ 
+            }
+            return true;
+        }
+        return false;
+    }
     
+    @Override
+    protected int getFOOD_VALUE(){
+        return RABBIT_FOOD_VALUE;
+    }
     /**
      * Make this fox more hungry. This could result in the fox's death.
      */
-    private void incrementHunger()
-    {
-        foodLevel--;
-        if(foodLevel <= 0) {
-           setInactive();
-        }
-    }
+    
     
     /**
      * Tell the fox to look for rabbits adjacent to its current location.
