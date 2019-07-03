@@ -41,6 +41,10 @@ public class Grass implements Actor {
         }
     }
     
+    /**
+     * This is what the grass does , it increment it's age or scatter new seeds.
+     * 
+     */
     public void act(ArrayList<Actor> NewActors){
         incrementAge();
         if(isActive()){
@@ -51,19 +55,34 @@ public class Grass implements Actor {
         }
     }
     
-    
+    /**
+     * Get the grasse's max age.
+     * 
+     */
     private int getMAX_AGE(){
         return MAX_AGE;
     }
     
+    /**
+     * Get the grasse's breeding age.
+     * 
+     */
     private int getBREEDING_AGE(){
         return BREEDING_AGE;
     }
     
+    /**
+     * Get the grasse's current field.
+     * 
+     */
     private Field getField(){
         return field;
     }
     
+    /**
+     * Increment the grasse's age.
+     * 
+     */
     protected void incrementAge(){
         age++;
         if(age > getMAX_AGE()){
@@ -71,14 +90,26 @@ public class Grass implements Actor {
         }
     }
     
+    /**
+     * Get the grasse's growing probability.
+     * 
+     */
     private double getGROWING_PROBABILITY(){
         return GROWING_PROBABILITY;
     }
     
+    /**
+     * Get the grasse's max growth size.
+     * 
+     */
     private int getMAX_GROWTH_SIZE(){
         return MAX_GROWTH_SIZE;
     }
     
+    /**
+     * Set the grasse's location for a given Location class.
+     * 
+     */
     @Override
     public void setLocation(Location newLocation){
         if(location != null){
@@ -88,10 +119,18 @@ public class Grass implements Actor {
         field.place(this,newLocation);
     }
     
+    /**
+     * Get the grasse's current location.
+     * 
+     */
     public Location getLocation(){
         return location;
     }
     
+    /**
+     * Set the grasse's to inactive, then clean it location on the field.
+     * 
+     */
     @Override
     public void setInactive(){
         this.alive = false;
@@ -102,11 +141,19 @@ public class Grass implements Actor {
         }
     }
     
+    /**
+     * Return true if the grass is alive.
+     * 
+     */
     @Override
     public boolean isActive(){
         return alive;
     }
     
+    /**
+     * It make's the grass grow.
+     * 
+     */
     private int grow(){
         int growths = 0;
         if(canGrow() && Randomizer.getRandomDouble() <= getGROWING_PROBABILITY()){
@@ -115,10 +162,19 @@ public class Grass implements Actor {
         return growths;
     }
     
+    /**
+     * Check if the grass can grow, true if it can.
+     * 
+     */
     private boolean canGrow(){
         return (age >= getBREEDING_AGE());
     }
     
+    
+    /**
+     * Scatter new seeds in the adjacent free locations.
+     * 
+     */
     private void scatterSeeds(ArrayList<Actor> NewActors){
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());

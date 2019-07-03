@@ -13,6 +13,9 @@ import java.util.ArrayList;
  */
 public interface Actor {
     
+    /**
+     * Actor's methods to be used in other classes.
+     */
     public void act(ArrayList<Actor> NewActors);
     public boolean isActive();
     public void setInactive();

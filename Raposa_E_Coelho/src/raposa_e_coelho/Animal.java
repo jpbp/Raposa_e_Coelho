@@ -48,17 +48,28 @@ public abstract class Animal implements Actor  {
         
     }
     
-    
+    /**
+     * Show the current status of the animal(dead or alive).
+     * alive == true
+     */
      public boolean isAlive()
     {
         return alive;
     }
-  
+     
+    /**
+     * Show the current situation of the animal.
+     * 
+     */
     @Override
      public boolean isActive(){
          return isAlive();
      }
-     
+    
+    /**
+     * Set the animal situation to inactive.
+     * also clean the animal's spot in the field
+     */ 
     @Override
     public void setInactive()
     {
@@ -69,19 +80,29 @@ public abstract class Animal implements Actor  {
             field = null;
         }
     }
-      
+    
+    /**
+     * Return the current location of the animal.
+     * 
+     */
     public Location getLocation()
     {
         return location;
     }
        
     
-    
+    /**
+     * Return the animal's field.
+     */
     public Field getField()
     {
         return field;
     }
-     //visibilidade protegida pois o metodo setLocation era privado tanta na raposa quanto no coelho  
+    
+     //visibilidade protegida pois o metodo setLocation era privado tanta na raposa quanto no coelho
+    /**
+     * Set a location for the animal for a given class of location.
+     */
     @Override
     public void setLocation(Location newLocation)
     {
@@ -91,12 +112,19 @@ public abstract class Animal implements Actor  {
         location = newLocation;
         field.place(this, newLocation);
     }
+    
+    /**
+     * return true if the animal can breed.
+     */
     protected boolean canBreed()
     {
         return (age >= getBreedingAge() && female);
         
     }
     
+    /**
+     * Increment the animal's age by one.
+     */
     protected void incrementAge()
     {
         age++;
@@ -105,7 +133,10 @@ public abstract class Animal implements Actor  {
         }
     }
     
-     protected int breed()
+    /**
+     * nao sei oq escrever aqui.
+     */
+    protected int breed()
     {
         int births = 0;
         if(canBreed() && Randomizer.getRandomDouble() <= getBREEDING_PROBABILITY()) {
@@ -114,7 +145,9 @@ public abstract class Animal implements Actor  {
         return births;
     }  
   
-     
+   /**
+     * nem aqui.
+     */
    protected void giveBirth(ArrayList<Actor> NewActors){
         //novas raposas nascem em locais adjacentes
         //obtem uma lista das localizacoes livres
@@ -127,7 +160,10 @@ public abstract class Animal implements Actor  {
             NewActors.add(young);
         }
     }
-
+   
+   /**
+     * Check if there are food in the adjacent locations of the animal.
+     */
    protected Location findFood(Location location){
        Field field = getField();
        List<Location> adjacent = field.adjacentLocations(location);
@@ -143,6 +179,10 @@ public abstract class Animal implements Actor  {
        return null;
    }
   
+   /**
+     * Increment , by one , the animal's level of hunger.
+     * if the food level reach 0 then the animal is set to inactive
+     */
    protected void incrementHunger()
     {
         foodLevel--;
@@ -151,6 +191,9 @@ public abstract class Animal implements Actor  {
         }
     }
    
+   /**
+     * Set the animal's level of food.
+     */
    protected void setFoodLevel(int value){
        foodLevel = value;
    }

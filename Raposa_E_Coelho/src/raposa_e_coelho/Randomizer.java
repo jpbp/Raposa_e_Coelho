@@ -16,7 +16,8 @@ public class Randomizer {
     private static final Random rand = new Random();
     
     /**
-     *
+     * Return a random int number given an upper limit
+     * 
      * @param max
      * @return
      */
@@ -25,7 +26,7 @@ public class Randomizer {
     }
     
     /**
-     *@return
+     * Return a random double number.
      */
     public static double getRandomDouble(){
         return rand.nextDouble() ;

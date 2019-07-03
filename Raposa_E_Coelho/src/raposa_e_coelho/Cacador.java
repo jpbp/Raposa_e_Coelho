@@ -31,15 +31,23 @@ public class Cacador implements Actor{
         active = true;
     }
     
-    //Métodos
+    /**
+     * Return the hunter's field.
+     */
     public Field getField(){
         return field;
     }
     
+    /**
+     * Return the hunter's current location.
+     */
     public Location getLocation(){
         return location;
     }
         
+    /**
+     * Set a location for the hunter for a given class of location.
+     */
     @Override
     public void setLocation(Location newLocation){
         if(location != null){
@@ -49,6 +57,10 @@ public class Cacador implements Actor{
         field.place(this,newLocation);
     }
     
+    /**
+     * Set the hunter situation to inactive.
+     * also clean the animal's spot in the field
+     */ 
     @Override
     public void setInactive(){
         active = false;
@@ -57,11 +69,19 @@ public class Cacador implements Actor{
         location = null;
     }
     
+    /**
+     * Show the current situation of the hunter.
+     * 
+     */
     @Override
     public boolean isActive(){
         return active;
     }
     
+    /**
+     * Move the hunter , first it checks the free adjacent locations of the hunter.
+     * 
+     */
     //@Override
     public void move(){
         Location newLocation = getField().freeAdjacentLocation(getLocation());
@@ -70,6 +90,10 @@ public class Cacador implements Actor{
             }
     }
     
+    /**
+     * Check the surrouindings of the hunter for his current location
+     * 
+     */
    // @Override
     public Location checkSurroundings(Location currentLocation){
         Field field = getField();
@@ -85,6 +109,10 @@ public class Cacador implements Actor{
         return null;
     }
     
+    /**
+     * Make the hunter plant a trap in a free adjacent location.
+     * 
+     */
     public Trap plantTrap(){
         Location trapLocation = getField().freeAdjacentLocation(getLocation());
         if(trapLocation != null){
@@ -97,6 +125,10 @@ public class Cacador implements Actor{
         return null;
     }
     
+    /**
+     * Make the hunter kill an animal in his surroundings..
+     * 
+     */
     public void hunt(Location location){
         Actor prey = field.getObjectAt(location);
         if(prey != null && prey instanceof Animal){
@@ -107,6 +139,11 @@ public class Cacador implements Actor{
         }
     }
     
+    /**
+     * Hunter acting , first he checks the surroundings , if there are an animal he hunts
+     * else he set a new trap.
+     * 
+     */
     @Override
     public void act(ArrayList<Actor> NewActors){
         move();
