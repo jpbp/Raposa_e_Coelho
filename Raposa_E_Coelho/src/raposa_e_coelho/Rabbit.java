@@ -26,9 +26,9 @@ public class Rabbit extends Animal{
    
     /** 
      * Cria uma instância de um novo coelho para a simulação
-     * @param define se o coelho gerado já estará na simulação ao começar, ou será fruto de procriação
-     * @param o Field(campo) no qual o coelho será simulado
-     * @param a localização do coelho gerado no Field(campo)
+     * @param randomAge define se o coelho gerado já estará na simulação ao começar, ou será fruto de procriação
+     * @param field o Field(campo) no qual o coelho será simulado
+     * @param location a localização do coelho gerado no Field(campo)
      *
      */
     public Rabbit(boolean randomAge, Field field, Location location)
@@ -52,7 +52,7 @@ public class Rabbit extends Animal{
      * Encontrar comida causa a morte de um Ator do tipo Grama.
      * Herda da classe Animal
      * Sobrescreve o método act da interface Ator(implementada na classe Animal)
-     * @param O ArrayList contendo todos os atores presentes na simulação, para adicionar mais atores pela procriação
+     * @param NewActors O ArrayList contendo todos os atores presentes na simulação, para adicionar mais atores pela procriação
      * 
      */
    @Override
@@ -134,8 +134,8 @@ public class Rabbit extends Animal{
     /** 
      * Gera um Coelho na posição especificada. Utilizado durante a procriação de Coelhos
      * Sobrescreve o método da classe Animal
-     * @param o Field(campo) onde a simulação ocorre
-     * @param a localização do novo coelho
+     * @param field o Field(campo) onde a simulação ocorre
+     * @param loc a localização do novo coelho
      * @return o novo coelho, inserido na localização e no campo especificados.
      */
     @Override
@@ -148,7 +148,7 @@ public class Rabbit extends Animal{
      * Verifica se um ator detectado pode ser consumido para obter comida.
      * No caso de coelhos, o ator encontrado deve ser do tipo Grama.
      * Sobrescreve o método da classe Animal
-     * @param o ator encontrado
+     * @param prey o ator encontrado
      * @return informa se o ator pode ser comido(true) ou não(false)
      */
     @Override
