@@ -14,7 +14,7 @@ public class Randomizer {
     
     /**
      * Retorna um número INTEIRO aleatório
-     * @param Valor máximo que pode ser gerado aleatóriamente
+     * @param max Valor máximo que pode ser gerado aleatóriamente
      * @return o número inteiro gerado entre 0 e o valor especificado
      */
     public static int getRandomInt(int max){
