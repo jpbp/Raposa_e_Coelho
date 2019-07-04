@@ -10,47 +10,49 @@ import java.awt.Color;
  * A simple predator-prey simulator, based on a field containing
  * rabbits and foxes.
  * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-09
+ * @author João Paulo Pena, Luiz Felipe Calvo Raphael Fernadnes Roriz
  */
 public class Simulator
 {
-    // The private static final variables represent 
-    // configuration information for the simulation.
-    // The default width for the grid.
+
+    // As variáveis private static final representam
+    
+    // informações da configuração da simulação.
+    // Valor padrão para a largura do grid.
     private static final int DEFAULT_WIDTH = 100;
-    // The default depth of the grid.
+    // Valor padrão para a altura do grid.
     private static final int DEFAULT_DEPTH = 100;
    
-
-    //aA lista de animais no campo
+    //A lista de animais no campo.
     private ArrayList<Actor> actors;
     
-    
-    
-    
-    // o estado atual do campo
+    //O estado atual do campo.
     private Field field;
     
-    // o passo atual da simulacao
+    // O passo atual da simulacao.
     private int step;
-    // A graphical view of the simulation.
+    // Visualização da simulação.
     private AnimatedView view;
+    //Preenche o Field com uma população
     private PopulationGenerator populationGenerator;
-    /**
-     * Construct a simulation field with default size.
-     */
+   
    
     
-    /**
-     * Create a simulation field with the given size.
-     * @param depth Depth of the field. Must be greater than zero.
-     * @param width Width of the field. Must be greater than zero.
+    
+    
+     /**
+     * Cria uma simulação nas dimensões padrão
      */
      public Simulator()
     {
         this(DEFAULT_DEPTH, DEFAULT_WIDTH);
     }
+    
+    /**
+     * Cria uma simulação com dimensões especificadas
+     * @param Largura do Field; deve ser maior que zero.
+     * @param Altura do Fieled; deve ser maior que zero.
+     */
     public Simulator(int depth, int width)
     {
         if(width <= 0 || depth <= 0) {
@@ -65,6 +67,7 @@ public class Simulator
         
 
         // criação de visualizacao do campo
+        // Definição das cores de cada ator
         view = new AnimatedView(depth, width);
         view.setColor(Fox.class, Color.red);
         view.setColor(Rabbit.class, Color.black);
@@ -77,37 +80,20 @@ public class Simulator
     }
     
     /**
-     * Run the simulation from its current state for a reasonably long period,
-     * e.g. 500 steps.
+     * Roda a simulação por um longo período de tempo
+     * por exemplo, 500 steps.
      */
     public void runLongSimulation()throws InterruptedException
     {
         simulate(500);
     }
     
-    /*public int TamanhoFox(){
-        int cont=0;
-        for(Animal a: animals){
-            if(a instanceof Fox){
-                cont++;
-            }
-        }
-        return cont;
-    }
-    public int TamanhoRabbit(){
-        int cont=0;
-        for(Animal a: animals){
-            if(a instanceof Rabbit){
-                cont++;
-            }
-        }
-        return cont;
-    }
-    */
-    
+        
     /**
-     * Run the simulation from its current state for the given number of steps.
-     * Stop before the given number of steps if it ceases to be viable.
+     * Roda a simulação por um número específico de steps
+     * para antes do número definido de steps caso a simulação não seja viável.
+     * @param a quantidade desejada de steps.
+     * @throws InterruptedException
      */
     public void simulate(int numSteps) throws InterruptedException
     {
@@ -119,9 +105,8 @@ public class Simulator
     }
     
     /**
-     * Run the simulation from its current state for a single step.
-     * Iterate over the whole field updating the state of each
-     * fox and rabbit.
+     * Roda um step da simulação à partir do seu step atual.
+     * Itera por todo o Field atualizando o estado de cara Raposa e Coelho
      */
     public void simulateOneStep()
     {
@@ -138,15 +123,14 @@ public class Simulator
           }
       }
      
-      
+      //Adiciona os novos atores à simulação
       actors.addAll(newActors);
+      //Mostra o estado do Field após o step.
       view.showStatus(step, field);
-        //System.out.print(TamanhoFox()+" ");
-        //System.out.println(TamanhoRabbit());
     }
         
     /**
-     * Reset the simulation to a starting position.
+     * Reseta asimulação para o estado inicial.
      */
     public void reset()
     {
@@ -155,12 +139,8 @@ public class Simulator
         field.clear();
         populationGenerator.populate(field,actors);
         
-        // Show the starting state in the view.
+        // Mostra a situação inicial do field
         view.showStatus(step, field);
     }
-    
-    /**
-     * Populate the field with foxes and rabbits.
-     */
     
 }
