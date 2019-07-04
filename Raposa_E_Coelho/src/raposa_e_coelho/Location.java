@@ -1,21 +1,21 @@
 
 package raposa_e_coelho;
 /**
- * Represent a location in a rectangular grid.
+ * Representa uma localização no grid de um Field
  * 
  * @author David J. Barnes and Michael Kolling
  * @version 2002-04-09
  */
 public class Location
 {
-    // Row and column positions.
+    // Posições de linhas e colunas
     private int row;
     private int col;
 
     /**
-     * Represent a row and column.
-     * @param row The row.
-     * @param col The column.
+     * Representa uma linha e coluna
+     * @param row A linha
+     * @param col A coluna
      */
     public Location(int row, int col)
     {
@@ -24,7 +24,7 @@ public class Location
     }
     
     /**
-     * Implement content equality.
+     * Implementa a igualdade do conteúdo
      */
     public boolean equals(Object obj)
     {
@@ -38,8 +38,8 @@ public class Location
     }
     
     /**
-     * Return a string of the form row,column
-     * @return A string representation of the location.
+     * Retorna uma string no formato linha,coluna
+     * @return Uma String representando a localização
      */
     public String toString()
     {
@@ -47,9 +47,8 @@ public class Location
     }
     
     /**
-     * Use the top 16 bits for the row value and the bottom for
-     * the column. Except for very big grids, this should give a
-     * unique hash code for each (row, col) pair.
+     * Usa os primeiros 16 bit para o valor da linha, e os últimos para a coluna
+     * Exceto para grids muito grandes, isto dá uma hash exclusiva para cada par de (linha,coluna)
      */
     public int hashCode()
     {
@@ -57,7 +56,8 @@ public class Location
     }
     
     /**
-     * @return The row.
+     * Obtém a linha
+     * @return A linha
      */
     public int getRow()
     {
@@ -65,7 +65,8 @@ public class Location
     }
     
     /**
-     * @return The column.
+     * Obtém a coluna
+     * @return A Coluna
      */
     public int getCol()
     {
