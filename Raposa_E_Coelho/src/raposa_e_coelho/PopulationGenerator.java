@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package raposa_e_coelho;
 
 import java.util.ArrayList;
@@ -10,43 +5,47 @@ import java.util.Collections;
 import java.util.Random;
 
 /**
- *
- * @author Jp
+ * Classe responsável por popular o Field (campo) da simulação.
+ * A população do campo é feita de forma aleatória.
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
  */
 public class PopulationGenerator {
     
 
-     // The probability that a fox will be created in any given grid position.
+    // Probabilidade de uma raposa ser posicionada em uma posição no grid do Field
     private static final double FOX_CREATION_PROBABILITY = 0.02; //0.02
-    // The probability that a rabbit will be created in any given grid position.
+    // Probabilidade de um coelho ser posicionado em uma posição no grid do Field
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;
-    // The probability that a hunter will be created in any given grid position.
+    // Probabilidade de um caçador ser posicionado em uma posição no grid do Field
     private static final double HUNTER_CREATION_PROBABILITY = 0.005;
-    // The probability that a trap will be created in any given grid position.
+   // Probabilidade de uma armadilha ser posicionada em uma posição no grid do Field
     private static final double TRAP_CREATION_PROBABILITY = 0.0005;
-    // The probability that grass will be created in any given grid position.
+    // Probabilidade de grama ser posicionada em uma posição no grid do Field
     private static final double GRASS_CREATION_PROBABILITY = 0.09;
     
     
     
-
-    public PopulationGenerator() {
-      
-    }
-    
-    public void adicionarTrap(Field field, ArrayList<Actor> actors){
-        
-    }
+    //Construtor Vazio, será que uso?
+    public PopulationGenerator() {}
     
     
-     public void populate(Field field,ArrayList<Actor> actors)
+    
+   /**
+     * Gera uma população aleatória para o Field.
+     * Cada posição no grid é verificada, e um Ator pode ser inserido em cada posição.
+     * Atores possíveis são: Raposas, Coelhos, Caçadores, Grama e Armadilhas.
+     * A população do campo é feita de forma aleatória.
+     * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
+     */
+    public void populate(Field field,ArrayList<Actor> actors)
     {
        
-        
        
-        //field.clear();
+        //Percorre cada posição do grid do Field, tentando posicionar um dos vários atores em cada uma delas
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
+                
+                //Tenta gerar uma Armadilha
                 if(Randomizer.getRandomDouble() <= TRAP_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
                     Trap trap = new Trap(field,location);
@@ -55,6 +54,7 @@ public class PopulationGenerator {
                     field.place(trap,row,col);
                 }
                 
+                //Tenta gerar um Caçador
                 else if(Randomizer.getRandomDouble() <= HUNTER_CREATION_PROBABILITY){
                     Location location = new Location(row,col);
                     Cacador cacador = new Cacador(field,location);
@@ -63,6 +63,7 @@ public class PopulationGenerator {
                     field.place(cacador,row,col);
                 }
                 
+                //Tenta gerar uma Raposa
                 else if(Randomizer.getRandomDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Fox fox = new Fox(true,field,location);
@@ -70,7 +71,7 @@ public class PopulationGenerator {
                     field.place(fox, row, col);
                 }
                 
-
+                //Tenta gerar um Coelho
                 else if(Randomizer.getRandomDouble() <= RABBIT_CREATION_PROBABILITY) {
                      Location location=new Location(row,col);
                     Rabbit rabbit = new Rabbit(true,field,location);
@@ -80,6 +81,7 @@ public class PopulationGenerator {
                     
                 }
                 
+                //Tenta gerar Grama
                 else if(Randomizer.getRandomDouble() <= GRASS_CREATION_PROBABILITY) {
                     Location location=new Location(row,col);
                     Grass grass = new Grass(true,field,location);
@@ -90,9 +92,10 @@ public class PopulationGenerator {
                 }
                 
                 
-                // else leave the location empty.
+                //Se nenhum Ator for gerado, a posição permanece vazia.
             }
         }
+        //Embaralha os atores presentes
         Collections.shuffle(actors);
       
     }
