@@ -20,7 +20,7 @@ public class Simulator
     // informações da configuração da simulação.
     // Valor padrão para a largura do grid.
     private static final int DEFAULT_WIDTH = 100;
-    // Valor padrão para a altura do grid.
+    // Valor padrão para o comprimento do grid.
     private static final int DEFAULT_DEPTH = 100;
    
     //A lista de animais no campo.
@@ -36,10 +36,7 @@ public class Simulator
     //Preenche o Field com uma população
     private PopulationGenerator populationGenerator;
    
-   
-    
-    
-    
+
      /**
      * Cria uma simulação nas dimensões padrão
      */
@@ -50,8 +47,8 @@ public class Simulator
     
     /**
      * Cria uma simulação com dimensões especificadas
-     * @param Largura do Field; deve ser maior que zero.
-     * @param Altura do Fieled; deve ser maior que zero.
+     * @param depth Largura do Field; deve ser maior que zero.
+     * @param width Comprimento do Fieled; deve ser maior que zero.
      */
     public Simulator(int depth, int width)
     {
@@ -92,7 +89,7 @@ public class Simulator
     /**
      * Roda a simulação por um número específico de steps
      * para antes do número definido de steps caso a simulação não seja viável.
-     * @param a quantidade desejada de steps.
+     * @param numSteps a quantidade desejada de steps.
      * @throws InterruptedException
      */
     public void simulate(int numSteps) throws InterruptedException
