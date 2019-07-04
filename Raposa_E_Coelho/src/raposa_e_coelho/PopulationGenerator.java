@@ -22,20 +22,14 @@ public class PopulationGenerator {
     private static final double TRAP_CREATION_PROBABILITY = 0.0005;
     // Probabilidade de grama ser posicionada em uma posição no grid do Field
     private static final double GRASS_CREATION_PROBABILITY = 0.09;
-    
-    
-    
-    //Construtor Vazio, será que uso?
-    public PopulationGenerator() {}
-    
-    
-    
+        
    /**
      * Gera uma população aleatória para o Field.
      * Cada posição no grid é verificada, e um Ator pode ser inserido em cada posição.
      * Atores possíveis são: Raposas, Coelhos, Caçadores, Grama e Armadilhas.
      * A população do campo é feita de forma aleatória.
-     * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
+     * @param O Field(Campo) onde a simulação ocorre
+     * @param Um ArrayList contendo todos os atores gerados
      */
     public void populate(Field field,ArrayList<Actor> actors)
     {
@@ -90,8 +84,7 @@ public class PopulationGenerator {
                     field.place(grass, row, col);
                     
                 }
-                
-                
+
                 //Se nenhum Ator for gerado, a posição permanece vazia.
             }
         }
