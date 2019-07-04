@@ -28,8 +28,8 @@ public class PopulationGenerator {
      * Cada posição no grid é verificada, e um Ator pode ser inserido em cada posição.
      * Atores possíveis são: Raposas, Coelhos, Caçadores, Grama e Armadilhas.
      * A população do campo é feita de forma aleatória.
-     * @param O Field(Campo) onde a simulação ocorre
-     * @param Um ArrayList contendo todos os atores gerados
+     * @param field O Field(Campo) onde a simulação ocorre
+     * @param actors Um ArrayList contendo todos os atores gerados
      */
     public void populate(Field field,ArrayList<Actor> actors)
     {
