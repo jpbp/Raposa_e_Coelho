@@ -5,68 +5,81 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * A simple model of a rabbit.
- * Rabbits age, move, breed, and die.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-11
+ * Um modelo simples de coelho;
+ * Coelhos envelhecem, se movem, procriam, comem grama e morrem;
+ * Herdam atributos da classe Animal
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz.
  */
 public class Rabbit extends Animal{
-    // Characteristics shared by all rabbits (static fields).
+    // Características comuns à todos os coelhos
 
     // idade em que o coelho pode procriar
     private static final int BREEDING_AGE = 5;
     // o limite de idade de um coelho
     private static final int MAX_AGE = 50;
-    //a probabilidade de procriação
+    // a probabilidade de procriação
     private static final double BREEDING_PROBABILITY = 0.15;
     // o numero maximo de nascimento
     private static final int MAX_LITTER_SIZE = 4;
-    //um gerador aleatorio compatilhado para controlar a procriação
+    // valor de comida obtido ao comer grama
     private static final int GRASS_FOOD_VALUE = 12;
-    
-    // Individual characteristics (instance fields).
-    
-
-    // se o coleho esta vivou ou morto
- 
    
-    //contrutor arrumado!!!!
-   public Rabbit(boolean randomAge, Field field, Location location)
+    /** 
+     * Cria uma instância de um novo coelho para a simulação
+     * @param define se o coelho gerado já estará na simulação ao começar, ou será fruto de procriação
+     * @param o Field(campo) no qual o coelho será simulado
+     * @param a localização do coelho gerado no Field(campo)
+     *
+     */
+    public Rabbit(boolean randomAge, Field field, Location location)
     {
+        //Caha construtor
         super(field, location);
+        //Para coelhos gerados para popular o Field
         if(randomAge) {
             age = Randomizer.getRandomInt(MAX_AGE);
             setFoodLevel(Randomizer.getRandomInt(getFOOD_VALUE()));
         }
+        //Para coelhos gerados por procriação.
         else{
             setFoodLevel(getFOOD_VALUE());
         }
     }
     
-    /** isso é o que o coelho faz a maior parte do tempo, ele corre livre. as vezes ele procria ou morre velho
-     * param newRabbits uma lista a qual adiconar os colehos recem-nascidos
+    /** 
+     * Agir controla o comportamento de cada Coelho. Em cada step, um coelho envelhece, fica com mais fome,
+     * tenta procriar(caso seja fêmea), procura comida, se move, e/ou morre de fome ou velhice.
+     * Encontrar comida causa a morte de um Ator do tipo Grama.
+     * Herda da classe Animal
+     * Sobrescreve o método act da interface Ator(implementada na classe Animal)
+     * @param O ArrayList contendo todos os atores presentes na simulação, para adicionar mais atores pela procriação
      * 
-     *
      */
    @Override
     public void act(ArrayList<Actor> NewActors)
     {
+        //Incremeneta a idade e a fome do coelho
         incrementHunger();
         incrementAge();
+        
+        //Se estiver vivo, realiza suas ações
         if(isAlive()) {
+            //Tenta procriar
             giveBirth(NewActors);
+            
+            //Procura comida com base na sua localização atual
             Location location = getLocation();
             Location newLocation = findFood(location);
+            //Se não encontrar comida, se move para uma posição livre
             if(newLocation == null){
-            //tenta mover-se para uma localizacao livre
                 newLocation= getField().freeAdjacentLocation(getLocation());
             }
+            //Se encontrar comida, move para sua localização.
             if(newLocation !=null){
                 setLocation(newLocation);
             }
+            //Em caso de superlotação, o Coelho é setado como morto
             else {
-                //superlotacao
                 setInactive();
             }
         }
@@ -75,58 +88,75 @@ public class Rabbit extends Animal{
     
     
     
-    /**
-     *aumenta a idade do coelho
-     *isso poderia resultar na morte de um coelho
+    
+    
+    /** 
+     * Obtem o atributo BREEDING_AGE (Idade mínima para procriacao)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo BREEDING_AGE
      */
-    
-    //verifica se o coelho deve ou não procriar nesse passo
-    //novos nascimentos serao criados en localizaocao adjacentes livres
-    //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-  
-    
-    /**
-     * gera um numero que representa o numero de nascimento se ele poder procriar
-     * 
-     * @return o numero de nascimento pode ser zero
-     */
-     
-     // colocar esse metdo na classe animal??????
-  
-
-    /**
-     * Um coelho pode se reproduzir se atingir a idade de reprodução.
-     */
-    
-    
     @Override
     public int getBreedingAge(){
         return BREEDING_AGE;
     }
+    
+    /** 
+     * Obtem o atributo MAX_AGE (Idade máxima)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo MAX_AGE
+     */
     @Override
     public int getMAX_AGE(){
         return MAX_AGE;
     }
+    
+    /** 
+     * Obtem o atributo BREEDING_PROBABILITY (Probabilidade de procriação)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo BREEDING_PROBABILITY
+     */
      @Override
     public double getBREEDING_PROBABILITY(){
         return BREEDING_PROBABILITY;
     }
     
+    
+    /** 
+     * Obtem o atributo MAX_LITTER_SIZE (Número máximo de filhotes por procriação)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo MAX_LITTER_SIZE
+     */
     @Override
     public int getMAX_LITTER_SIZE(){
         return MAX_LITTER_SIZE;
     }
+    
+    /** 
+     * Gera um Coelho na posição especificada. Utilizado durante a procriação de Coelhos
+     * Sobrescreve o método da classe Animal
+     * @param o Field(campo) onde a simulação ocorre
+     * @param a localização do novo coelho
+     * @return o novo coelho, inserido na localização e no campo especificados.
+     */
     @Override
     public Animal getAnimal (Field field,Location loc){
         Rabbit young = new Rabbit(false,field,loc);
         return young;
     }
     
-    
+    /** 
+     * Verifica se um ator detectado pode ser consumido para obter comida.
+     * No caso de coelhos, o ator encontrado deve ser do tipo Grama.
+     * Sobrescreve o método da classe Animal
+     * @param o ator encontrado
+     * @return informa se o ator pode ser comido(true) ou não(false)
+     */
     @Override
     protected boolean compatibleFood(Actor prey){
+        //Verifica se o ator encontrado é uma instância de Grama
         if(prey instanceof Grass){
             Grass grass = (Grass)prey;
+            //Mata a Grama(pois a consumiu)
             if(grass.isActive()){
                 grass.setInactive();
             }
@@ -135,6 +165,11 @@ public class Rabbit extends Animal{
         return false;
     }
     
+    /** 
+     * Obtem o atributo FOOD_VALUE (valor de comida)
+     * Sobrescreve o método da classe Animal
+     * @return o valor de comida de um ator do tipo Grama
+     */
     @Override
     protected int getFOOD_VALUE(){
         return GRASS_FOOD_VALUE;
