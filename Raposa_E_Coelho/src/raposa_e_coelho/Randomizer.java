@@ -1,32 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package raposa_e_coelho;
 
 import java.util.Random;
 
 /**
- *
- * @author raphael
+ * A classe Randomizer é responsável pela geração de números aleatórios
+ * durante a simulação.
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
  */
 public class Randomizer {
     
+    //Atributo que acessa as funções da classe Random.
     private static final Random rand = new Random();
     
     /**
-     * Return a random int number given an upper limit
-     * 
-     * @param max
-     * @return
+     * Retorna um número INTEIRO aleatório
+     * @param Valor máximo que pode ser gerado aleatóriamente
+     * @return o número inteiro gerado entre 0 e o valor especificado
      */
     public static int getRandomInt(int max){
         return rand.nextInt(max);
     }
     
     /**
-     * Return a random double number.
+     * Retorna um número REAL aleatório.
      */
     public static double getRandomDouble(){
         return rand.nextDouble() ;
