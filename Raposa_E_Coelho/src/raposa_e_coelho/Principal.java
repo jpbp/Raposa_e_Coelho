@@ -8,12 +8,12 @@ public class Principal{
   /**
  * O método main da simulação, responsável por iniciar a simulação propriamente dita,e
  * definir quantos Steps serão rodados
- * @param argumentos da linha de comando
+ * @param args argumentos da linha de comando
  */
   public static void main(String[] args) throws InterruptedException{
-    //Roda a simulação.
-    Simulator simulator = new Simulator();
-       simulator.runLongSimulation();
+      //Roda a simulação.
+      Simulator simulator = new Simulator();
+      simulator.runLongSimulation();
       }
   }
 
