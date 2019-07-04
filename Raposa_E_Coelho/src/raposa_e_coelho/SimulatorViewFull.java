@@ -3,14 +3,11 @@ package raposa_e_coelho;
 import java.awt.Color;
 
 /**
- *
+ *Define os atributos principais a serem 
+ *exibidos na vizualiçao da simulaçao
  * @author Jp
  */
 
-/**
-* Define os atributos principais a serem 
-* exibidos na vizualiçao da simulaçao
-*/
 public interface SimulatorViewFull {
     //Define as cores dos atores;     
     void setColor(Class cl,Color color);
