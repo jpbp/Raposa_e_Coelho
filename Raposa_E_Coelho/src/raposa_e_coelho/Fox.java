@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.util.Random;
 
 /**
- * A simple model of a fox.
- * Foxes age, move, eat rabbits, and die.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-11
+ * Um modelo simples de Raposa;
+ * Raposas envelhecem, se movem, procriam, comem coelhos e morrem;
+ * Herdam atributos da classe Animal
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz.
  */
 public class Fox extends Animal
 {
@@ -17,31 +16,23 @@ public class Fox extends Animal
     
     // A idade em que uma raposa pode começar a se reproduzir.
     private static final int BREEDING_AGE = 5;
-    // A idade em que uma raposa pode viver.
+    // O limite de idade de uma Raposa
     private static final int MAX_AGE = 300;
-    // A probabilidade de uma criação de raposa.
+    // A probabilidade de procriação de raposa.
     private static final double BREEDING_PROBABILITY = 0.09;
     // O número máximo de nascimentos.
     private static final int MAX_LITTER_SIZE = 3;
-    // O valor alimentar de um único coelho. Com efeito, esta é a
-    // number of steps a fox can go before it has to eat again.
+    // O valor alimentar de um único coelho; praticamente, é o número de Steps
+    //Que uma raposa vive antes de se alimentar novamente
     private static final int RABBIT_FOOD_VALUE = 20;
     
-    
-    // Individual characteristics (instance fields).
 
-   
-    // se a raposa esta vida ou morta
-   
-    // o nivel de alimenots da raposa, que aumenta comendo coelhos
-    
-    
-
-    /**
-     * Create a fox. A fox can be created as a new born (age zero
-     * and not hungry) or with random age.
-     * 
-     * @param randomAge If true, the fox will have random age and hunger level.
+   /** 
+     * Cria uma instância de uma nova Raposa para a simulação
+     * @param randomAge define se a Raposa gerada já estará na simulação ao começar, ou será fruto de procriação
+     * @param field o Field(campo) no qual a Raposa será simulada
+     * @param location a localização da Raposa gerada no Field(campo)
+     *
      */
     public Fox(boolean randomAge,Field field,Location location)
     {
@@ -57,10 +48,14 @@ public class Fox extends Animal
         }
     }
     
-    /**
-     * This is what the fox does most of the time: it hunts for
-     * rabbits. In the process, it might breed, die of hunger,
-     * or die of old age.
+    /** 
+     * Agir controla o comportamento de cada Raposa. Em cada step, uma Raposa envelhece, fica com mais fome,
+     * tenta procriar(caso seja fêmea), procura comida, se move, e/ou morre de fome ou velhice.
+     * Encontrar comida causa a morte de um Ator do tipo Coelho.
+     * Herda da classe Animal
+     * Sobrescreve o método act da interface Ator(implementada na classe Animal)
+     * @param NewActors O ArrayList contendo todos os atores presentes na simulação, para adicionar mais atores pela procriação
+     * 
      */
     public void act(ArrayList<Actor> NewActors)
     {
@@ -86,25 +81,12 @@ public class Fox extends Animal
         }
     }
         
-    
-   
-    
-    
-    
-     //verifica se o coelho deve ou não procriar nesse passo
-    //novos nascimentos serao criados en localizaocao adjacentes livres
-    //newRabbits uma lista a qual adiconar os coelhos recem nascidos
-   
-    
-    /**instrui a raposa procurar coelhos adjacentes ao seu local ataul
-     * só o primeiro coelho é comido @param location onde no campo esta localizado
-     * retun onde o alimento foi encontardo ou null caso contrario
-     * 
-     */
-   
-    
-    /**
-     * Increase the age. This could result in the fox's death.
+   /** 
+     * Verifica se um ator detectado pode ser consumido para obter comida.
+     * No caso de Raposas, o ator encontrado deve ser do tipo Coelho.
+     * Sobrescreve o método da classe Animal
+     * @param prey o ator encontrado
+     * @return informa se o ator pode ser comido(true) ou não(false)
      */
     @Override
     protected boolean compatibleFood(Actor prey){
@@ -119,68 +101,68 @@ public class Fox extends Animal
         return false;
     }
     
+  /** 
+    * Obtem o atributo FOOD_VALUE (valor de comida)
+    * Sobrescreve o método da classe Animal
+    * @return o valor de comida de um ator do tipo Coelho
+    */
     @Override
     protected int getFOOD_VALUE(){
         return RABBIT_FOOD_VALUE;
     }
-    /**
-     * Make this fox more hungry. This could result in the fox's death.
-     */
     
     
-    /**
-     * Tell the fox to look for rabbits adjacent to its current location.
-     * @param field The field in which it must look.
-     * @param location Where in the field it is located.
-     * @return Where food was found, or null if it wasn't.
+    /** 
+     * Obtem o atributo BREEDING_AGE (Idade mínima para procriacao)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo BREEDING_AGE
      */
-
-        
-    /**
-     * Generate a number representing the number of births,
-     * if it can breed.
-     * @return The number of births (may be zero).
-     */
-   
-    /**
-     * A fox can breed if it has reached the breeding age.
-     */
-  
-    
     @Override
     public int getBreedingAge(){
         return BREEDING_AGE;
     }
+    
+    /** 
+     * Obtem o atributo MAX_AGE (Idade máxima)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo MAX_AGE
+     */
     @Override
     public int getMAX_AGE(){
         return MAX_AGE;
     }
+    
+     /** 
+     * Obtem o atributo BREEDING_PROBABILITY (Probabilidade de procriação)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo BREEDING_PROBABILITY
+     */
     @Override
     public double getBREEDING_PROBABILITY(){
         return BREEDING_PROBABILITY;
     }
     
+    /** 
+     * Obtem o atributo MAX_LITTER_SIZE (Número máximo de filhotes por procriação)
+     * Sobrescreve o método da classe Animal
+     * @return o atributo MAX_LITTER_SIZE
+     */
     @Override
     public int getMAX_LITTER_SIZE(){
         return MAX_LITTER_SIZE;
     }
     
+    /** 
+     * Gera uma Raposa na posição especificada. Utilizado durante a procriação de Raposas
+     * Sobrescreve o método da classe Animal
+     * @param field o Field(campo) onde a simulação ocorre
+     * @param loc a localização da nova Raposa
+     * @return A nova Raposa, inserida na localização e no campo especificados.
+     */
     @Override
     public Animal getAnimal (Field field,Location loc){
         Fox young = new Fox(false,field,loc);
         return young;
     }
             
-            
-      
-    
-  
-    /**
-     * Set the animal's location.
-     * @param row The vertical coordinate of the location.
-     * @param col The horizontal coordinate of the location.
-     */
-   
-
-    
 }
