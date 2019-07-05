@@ -6,20 +6,24 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Um modelo simples de Armadilha.]
+ * Um modelo simples de Armadilha.
  * Armadilhas são plantadas por caçadores, e não se movem; apenas aguardam algum animal (Raposa ou coelho)
- * 
+ * se aproximar de seus arredores, então dispara, matando o animal e se desativando no processo.
  * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz 
  */
 public class Trap implements Actor{
-    //Atributos
+    //A localização da Armadilha no gAtributosrid do Field(Campo)
     private Location location;
-    
+    //O Field(Campo) onde a armadilha está localizada
     private Field field;
-    
+    // Informa se a armadilha está ativa ou não
     private boolean active;
     
-    //Construtor
+    /**
+      * Instancia uma nova armadilha  na simulação.
+      * @param field O campo ond a Armadilha será simulada
+      * @param location a posição da armadilha no grid do Field
+      */
     public Trap(Field field, Location location){
         this.field = field;
         setLocation(location);
@@ -27,26 +31,33 @@ public class Trap implements Actor{
     }
     
     /**
-     * Return the trap's current field.
+     * Obtém o field onde a Armadilha está sendo simulada
+     * @return O Field da armadilha
      */
     public Field getField(){
         return field;
     }
         
     /**
-     * Set the trap's locaton for a given Location class.
+     * Define a localização da Armadilha no grido do Field
+     * Sobrescreve o método setLocation de Actor
+     * @param newLocation A localização no grid de Field onde a armadilha será plantada
      */
     @Override
     public void setLocation(Location newLocation){
+        //Se a armadilha já ocupa algum lugar, ela o libera
         if(location != null){
             field.clear(location);
         }
+        //Ocupa a nova localização
         location = newLocation;
         field.place(this,newLocation);
     }
     
     /**
-     * Return the trap's current situation.
+     * Informa se a Armadilha ainda está ativa
+     * Sobrescreve o método isActive de Actor
+     * @return A confirmação ou negação da Armadilha como viva
      */
     @Override
     public boolean isActive(){
