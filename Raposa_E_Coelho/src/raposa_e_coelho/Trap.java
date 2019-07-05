@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package raposa_e_coelho;
 
 import java.util.Iterator;
@@ -10,8 +6,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- *
- * @author luizc
+ * Um modelo simples de Armadilha.]
+ * Armadilhas são plantadas por caçadores, e não se movem; apenas aguardam algum animal (Raposa ou coelho)
+ * 
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz 
  */
 public class Trap implements Actor{
     //Atributos
