@@ -2,24 +2,22 @@ package raposa_e_coelho;
 import java.awt.Color;
 
 /**
+ * Providencia um contador para cada participante da simulação
+ * Isto inclui uma string identificadora, e um contador de quantos participantes
+ * daquele tipo existem atualmente na simulação
  * Provide a counter for a participant in the simulation.
- * This includes an identifying string and a count of how
- * many participants of this type currently exist within 
- * the simulation.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-23
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
  */
 public class Counter
 {
-    // A name for this type of simulation participant
+    // O nome do tipo de participante da simulação
     private String name;
-    // How many of this type exist in the simulation.
+    // Quantos do mesmo tipo estão presentes na simulação
     private int count;
 
     /**
-     * Provide a name for one of the simulation types.
-     * @param name  A name, e.g. "Fox".
+     * Providencia o nome para um dos tipos simulados
+     * @param name  Um nome, por exemplo, "Fox"
      */
     public Counter(String name)
     {
@@ -28,7 +26,8 @@ public class Counter
     }
     
     /**
-     * @return The short description of this type.
+     * Obtem o nome do participante da simulação
+     * @return Uma descrição curta do participante
      */
     public String getName()
     {
@@ -36,7 +35,8 @@ public class Counter
     }
 
     /**
-     * @return The current count for this type.
+     * Obtém uma contagem para o participante da simulação
+     * @return A contagem do tipo participante.
      */
     public int getCount()
     {
@@ -44,7 +44,7 @@ public class Counter
     }
 
     /**
-     * Increment the current count by one.
+     * Incrementa o contador em um 
      */
     public void increment()
     {
@@ -52,7 +52,7 @@ public class Counter
     }
     
     /**
-     * Reset the current count to zero.
+     * Reseta o contador para zero
      */
     public void reset()
     {
