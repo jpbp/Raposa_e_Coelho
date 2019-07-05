@@ -12,15 +12,10 @@ import javax.swing.text.FieldView;
 import raposa_e_coelho.Field;
 import raposa_e_coelho.FieldStats;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author Jp
+ * Uma interface com métodos comuns aos atores
+ * da simulação.
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
  */
 public class AnimatedView extends JFrame implements SimulatorViewFull
 {
@@ -68,6 +63,8 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
     
     /**
      * Define a color to be used for a given class of animal.
+     * @param animalClass classe do animal 
+     * @param Cor do Animal
      */
     @Override
     public void setColor(Class animalClass, Color color)
@@ -77,6 +74,8 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
 
     /**
      * Define a color to be used for a given class of animal.
+     * @param animalClass obter a cor do animal
+     * @return col a cor do animal
      */
     private Color getColor(Class animalClass)
     {
@@ -90,12 +89,12 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         }
     }
 
-    /**
-     * Show the current status of the field.
-     * @param step Which iteration step it is.
-     * @param field
-     * @param stats Status of the field to be represented.
-     */
+ /**
+      * Mostrar o status atual do campo.
+      * @param step Qual é a etapa de iteração?
+      * campo @param
+      * @param stats Status do campo a ser representado.
+      */
     
     @Override
     public void showStatus(int step,Field field)
@@ -126,10 +125,10 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         fieldView.repaint();
     }
 
-    /**
-     * Determine whether the simulation should continue to run.
-     * @return true If there is more than one species alive.
-     */
+   /**
+      * Determine se a simulação deve continuar a ser executada.
+      * @return true Se houver mais de uma espécie viva.
+      */
     @Override
     public boolean isViable(Field field)
     {
@@ -137,13 +136,13 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
     }
     
     /**
-     * Provide a graphical view of a rectangular field. This is 
-     * a nested class (a class defined inside a class) which
-     * defines a custom component for the user interface. This
-     * component displays the field.
-     * This is rather advanced GUI stuff - you can ignore this 
-     * for your project if you like.
-     */
+      * Fornecer uma visão gráfica de um campo retangular. Isto é
+      * uma classe aninhada (uma classe definida dentro de uma classe) que
+      * define um componente personalizado para a interface do usuário. este
+      * componente exibe o campo.
+      * Isso é bastante avançado GUI stuff - você pode ignorar isso
+      * para o seu projeto, se quiser.
+      */
     private class FieldView extends JPanel
     {
         private final int GRID_VIEW_SCALING_FACTOR = 6;
@@ -156,6 +155,8 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
 
         /**
          * Create a new FieldView component.
+         * @param height comprimento do campo
+         * @param width largura do campo
          */
         public FieldView(int height, int width)
         {
@@ -164,9 +165,9 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
             size = new Dimension(0, 0);
         }
 
-        /**
-         * Tell the GUI manager how big we would like to be.
-         */
+      /**
+          * Diga ao gerente da GUI o tamanho que gostaríamos de ser.
+          */
         public Dimension getPreferredSize()
         {
             return new Dimension(gridWidth * GRID_VIEW_SCALING_FACTOR,
@@ -174,9 +175,9 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         }
         
         /**
-         * Prepare for a new round of painting. Since the component
-         * may be resized, compute the scaling factor again.
-         */
+          * Prepare-se para uma nova rodada de pintura. Desde o componente
+          * pode ser redimensionado, calcule o fator de escala novamente.
+          */
         public void preparePaint()
         {
             if(! size.equals(getSize())) {  // if the size has changed...
@@ -197,6 +198,9 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         
         /**
          * Paint on grid location on this field in a given color.
+         *@param x 
+         *@param y
+         *@param color
          */
         public void drawMark(int x, int y, Color color)
         {
@@ -207,6 +211,7 @@ public class AnimatedView extends JFrame implements SimulatorViewFull
         /**
          * The field view component needs to be redisplayed. Copy the
          * internal image to screen.
+         *@param g 
          */
         public void paintComponent(Graphics g)
         {
