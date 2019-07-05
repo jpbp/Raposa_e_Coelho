@@ -1,26 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package raposa_e_coelho;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author Jp
+ * Uma interface com métodos comuns aos atores
+ * da simulação.
+ * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz
  */
 public interface Actor {
     
     /**
-     * Actor's methods to be used in other classes.
+     * Controla o comportamento de cada ator durante a simulação
+     * @param NewActors Um ArrayList que contém novos atores gerados pelo métodos
      */
     public void act(ArrayList<Actor> NewActors);
+     
+    /**
+     * Verifica se o ator ainda está vivo(ativo)
+     * @return A verificação se o Ator ainda está ativo
+     */
     public boolean isActive();
+    
+    /**
+     * Torna o ator Inativo(morto)
+     */
     public void setInactive();
+    
+    /**
+     * Altera a localização do ator no grid do Field
+     * @param newLocation A localização destino do ator
+     */
     public void setLocation(Location newLocation);
-   // public void move();
-    //public Location checkSurroundings(Location currentLocation);
     
 }
