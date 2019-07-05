@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * This class collects and provides some statistical data on the state 
- * of a field. It is flexible: it will create and maintain a counter 
- * for any class of object that is found within the field.
- * 
- * @author David J. Barnes and Michael Kolling
- * @version 2002-04-23
- */
+  * Esta classe coleta e fornece alguns dados estatísticos sobre o estado
+  * de um campo. É flexível: vai criar e manter um contador
+  * para qualquer classe de objeto encontrada no campo.
+  *
+  * @author João Paulo Pena, Luiz Felipe Calvo, Raphael Fernandes Roriz 
+  * 
+  */
 public class FieldStats
 {
     // Counters for each type of entity (fox, rabbit, etc.) in the simulation.
@@ -30,7 +30,8 @@ public class FieldStats
     }
 
     /**
-     * @return A string describing what animals are in the field.
+     * @param  field campo sobre os detalhes das populacao
+     * @return  buffer.toString() Uma string descrevendo o que os animais estão no campo.
      */
     public String getPopulationDetails(Field field)
     {
@@ -49,10 +50,10 @@ public class FieldStats
         return buffer.toString();
     }
     
-    /**
-     * Invalidate the current set of statistics; reset all 
-     * counts to zero.
-     */
+   /**
+      * Invalidar o conjunto atual de estatísticas; reiniciar tudo
+      * conta para zero.
+      */
     public void reset()
     {
         countsValid = false;
@@ -64,8 +65,8 @@ public class FieldStats
     }
 
     /**
-     * Increment the count for one class of animal.
-     */
+      * Incrementar a contagem para uma classe de animal.
+      */
     public void incrementCount(Class animalClass)
     {
         Counter cnt = (Counter) counters.get(animalClass);
@@ -77,22 +78,23 @@ public class FieldStats
         cnt.increment();
     }
 
-    /**
-     * Indicate that an animal count has been completed.
-     */
+   /**
+      * Indique que uma contagem de animais foi completada.
+      */
     public void countFinished()
     {
         countsValid = true;
     }
 
     /**
-     * Determine whether the simulation is still viable.
-     * I.e., should it continue to run.
-     * @return true If there is more than one species alive.
-     */
+      * @param field do campo se é viavel
+      * Determine se a simulação ainda é viável.
+      * Ou seja, deve continuar a ser executado.
+      * @return true Se houver mais de uma espécie viva.
+      */
     public boolean isViable(Field field)
     {
-        // How many counts are non-zero.
+        // Quantas contagens são diferentes de zero.
         int nonZero = 0;
         if(!countsValid) {
             generateCounts(field);
@@ -107,12 +109,13 @@ public class FieldStats
         return nonZero > 1;
     }
     
-    /**
-     * Generate counts of the number of foxes and rabbits.
-     * These are not kept up to date as foxes and rabbits
-     * are placed in the field, but only when a request
-     * is made for the information.
-     */
+ /**
+      * @param field do campo onde sera gerado a contagem
+      * Gerar contagens do número de raposas e coelhos.
+      * Estes não são mantidos atualizados como raposas e coelhos
+      * são colocados no campo, mas somente quando um pedido
+      * é feito para a informação.
+      */
     private void generateCounts(Field field)
     {
         reset();
