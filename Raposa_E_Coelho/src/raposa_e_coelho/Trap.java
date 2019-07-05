@@ -65,15 +65,19 @@ public class Trap implements Actor{
     }
     
     /**
-     * Return the animals int he tra's surrounding.
+     * Verifica as posições adjacentes da armadilha por animais para matá-los
+     * @param currentLocation A localização atual da armadilha
+     * @return A posição do primeiro animal encontrado, ou null se nenhum foi encontrado
      */
     public Location checkSurroundings(Location currentLocation){
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(location);
         Iterator<Location> iter = adjacent.iterator();
+        //Busca as posições adjacentes
         while(iter.hasNext()){
             Location place = iter.next();
             Actor anAnimal = field.getObjectAt(place);
+            //Se encontrou um Ator, precisa ter certeza que é um animal
             if (anAnimal != null && anAnimal instanceof Animal){
                 return place;
             }//fim if
@@ -82,10 +86,13 @@ public class Trap implements Actor{
     }
     
     /**
-     * Kill an animal in one adjacent location.
+     * Ativa a Armadilha, matando o animal na posição indicada
+     * e desativando a Armadilha no processo.
+     * @param location A Localização do animal à ser morto pela Armadilha.
      */
     public void engage(Location location){
         Actor prey = field.getObjectAt(location);
+        //Verifica se o anima
         if(prey != null && prey instanceof Animal){
             if(prey.isActive()){
                 Animal animal = (Animal)prey;
@@ -95,18 +102,25 @@ public class Trap implements Actor{
     }
     
     /**
-     * Set the trap's situation to inactive.
+     * Atualiza o estado da armadilha para desativado(Inativo)
+     * Sobrescrita de setInactive de Actor
      */
     @Override
     public void setInactive(){
         active = false;
+        //Desocupa a posição no grid de Field
         field.clear(location);
         location = null;
         field = null;
     }
     
     /**
-     * This is what the trap does , it check it surroundings and engage if an animal was found.
+     * As ações que uma Armadilha realiza em cada Step.
+     * Ela checa suas posições adjacentes buscando por animais
+     * caso encontre algum, a Armadilha dispara, matando o animal
+     * e se desativando no processo.
+     * Sobrescreve o método act de Actor
+     * @param NewActors o ArrayList contendo os Atores da simulação, para indicar quais deles serão mortos.
      */
     @Override
     public void act(ArrayList<Actor> NewActors){
