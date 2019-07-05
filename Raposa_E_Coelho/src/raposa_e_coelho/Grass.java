@@ -188,7 +188,7 @@ public class Grass implements Actor {
     }
     
     /**
-     * Verifica se a Grama pode se reproduzir
+     * Verifica se a Grama tem idade para se reproduzir
      * @return o resultado da verificação.
      */
     private boolean canGrow(){
@@ -197,16 +197,18 @@ public class Grass implements Actor {
     
     
     /**
-     * Obtem o atributo MAX_AGE (Idade Máxima)
-     * @return o atributo MAX_AGE
+     * Procria, gerando uma nova instância de Grama em uma posição adjacente
+     * @param NewActors ArrayList contendo todos os atores presentes na simulação, utilizado para adicionar novos atores à simulação.
      */
     private void scatterSeeds(ArrayList<Actor> NewActors){
         Field field = getField();
         List<Location> free = field.getFreeAdjacentLocations(getLocation());
         int totalGrowth = grow();
+        //Verifica se há alguma posição adjacente disponível, e se a grama pode se reproduzir/crescer
         for(int g = 0; g < totalGrowth && free.size() > 0; g++){
             Location loc = free.remove(0);
             Grass sprout = new Grass(false,field,loc);
+            //Adiciona novas Gramas à simulação.
             NewActors.add(sprout);
         }
         
