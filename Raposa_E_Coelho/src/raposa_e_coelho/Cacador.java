@@ -1,30 +1,31 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package raposa_e_coelho;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 /**
- *
+ * Um modelio básico de caçador. Caçadores se movem, plantam armadilhas 
+ * e matam animais próximos.
+ * Implementa a interface Actor
  * @author luizc
  */
 public class Cacador implements Actor{
-    //Atributos
-    
+    //A posição do caçador no Grid de Field
     private Location location;
-    
+    //O field no qual a simulação ocorre
     private Field field;
-    
+    //A chance do caçador montar armadilhas
     private static final int SET_TRAP_CHANCE = 5;
-    
+    //Informa se o caçador está ativo ou não
     private boolean active;
     
     
-    //Construtor
+    /**
+      * Cria uma instância de Caçador para a simulação
+      * @param field O Campo onde a simulação ocorre
+      * @location a posição onde o caçador será gerado.
+      */
     public Cacador(Field field, Location location){
         this.field = field;
         setLocation(location);
@@ -32,21 +33,25 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Return the hunter's field.
+     * Obtém o field do caçador
+     * @return o field do caçador
      */
     public Field getField(){
         return field;
     }
     
-    /**
-     * Return the hunter's current location.
+   /**
+     * Obtém a posição do caçador no grid de Field
+     * @return A posição do caçador
      */
     public Location getLocation(){
         return location;
     }
         
     /**
-     * Set a location for the hunter for a given class of location.
+     * Define a localização do Cacador no grido do Field
+     * Sobrescreve o método setLocation de Actor
+     * @param newLocation A nova localização de Caçador no Grid de Field
      */
     @Override
     public void setLocation(Location newLocation){
@@ -58,9 +63,9 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Set the hunter situation to inactive.
-     * also clean the animal's spot in the field
-     */ 
+     * Atualiza o estado do Caçador para desativado(Inativo)
+     * Sobrescrita de setInactive de Actor
+     */
     @Override
     public void setInactive(){
         active = false;
@@ -69,9 +74,10 @@ public class Cacador implements Actor{
         location = null;
     }
     
-    /**
-     * Show the current situation of the hunter.
-     * 
+   /**
+     * Informa se o Cacador ainda está ativo
+     * Sobrescreve o método isActive de Actor
+     * @return A confirmação ou negação do Caçador como Ativo
      */
     @Override
     public boolean isActive(){
@@ -79,10 +85,8 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Move the hunter , first it checks the free adjacent locations of the hunter.
-     * 
+     * Move o caçador para alguma posição adjacente válida
      */
-    //@Override
     public void move(){
         Location newLocation = getField().freeAdjacentLocation(getLocation());
             if(newLocation !=null){
@@ -91,10 +95,10 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Check the surrouindings of the hunter for his current location
-     * 
+     * Verifica as posições adjacentes do caçador por animais para matá-los
+     * @param currentLocation A localização atual do caçador
+     * @return A posição do primeiro animal encontrado, ou null se nenhum foi encontrado
      */
-   // @Override
     public Location checkSurroundings(Location currentLocation){
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(location);
@@ -110,8 +114,8 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Make the hunter plant a trap in a free adjacent location.
-     * 
+     * Tenta plantar uma armadilha no Field
+     * @return A nova armadilha plantada no field
      */
     public Trap plantTrap(){
         Location trapLocation = getField().freeAdjacentLocation(getLocation());
@@ -126,8 +130,8 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Make the hunter kill an animal in his surroundings..
-     * 
+     * Mata animais na localização especificada
+     * @param location A localização do animal à ser morto
      */
     public void hunt(Location location){
         Actor prey = field.getObjectAt(location);
@@ -140,9 +144,14 @@ public class Cacador implements Actor{
     }
     
     /**
-     * Hunter acting , first he checks the surroundings , if there are an animal he hunts
-     * else he set a new trap.
-     * 
+     * As ações que um cacador realiza em cada Step.
+     * Ele se move para uma posição adjacente
+     * Ela checa suas posições adjacentes buscando por animais
+     * caso encontre algum, ele o mata.
+     * Caso não encontre nenum, tenta plantar uma armadilha 
+     * em uma posição adjacente aleatória
+     * Sobrescreve o método act de Actor
+     * @param NewActors o ArrayList contendo os Atores da simulação, para indicar quais deles serão mortos e para inserir armadilhas plantadas.
      */
     @Override
     public void act(ArrayList<Actor> NewActors){
